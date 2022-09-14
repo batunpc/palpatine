@@ -1,13 +1,21 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(palpatine VERSION 1.0.0 LANGUAGES CXX)
+
+# project(palpatine VERSION 1.0.0 LANGUAGES CXX)
+project(palpatine
+  VERSION 0.0.1
+  DESCRIPTION "Static site generator (SSG) for generating static websites from raw data "
+  HOMEPAGE_URL "https://github.com/batunpc/palpatine"
+  LANGUAGES CXX
+)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-enable_testing()
+set(PALPATINE_EXE "Executable")
 
-add_executable(palpatine main.cpp)
+# Call the addGitSubmodule function to add the library
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+include(AddGitSubmodule) # This will include cmake module files
+add_git_submodule("external/parser")
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+add_subdirectory(app) # The executable lays here
