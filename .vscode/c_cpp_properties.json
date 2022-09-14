@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "name": "macos-clang-arm",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "compilerPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+      "cStandard": "c99",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "macos-clang-arm64",
+      "compilerArgs": [
+        "-std=c++20"
+      ]
+    }
+  ],
+  "version": 4
+}
