@@ -16,7 +16,10 @@ set(PALPATINE_EXE "Executable")
 # Call the addGitSubmodule function to add the library
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(AddGitSubmodule) # This will include cmake module files
+
+# Dependencies
 add_git_submodule("external/parser")
+add_git_submodule("external/termcolor")
 
 add_subdirectory(config)
 add_subdirectory(src)

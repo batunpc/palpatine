@@ -7,5 +7,6 @@ prepare:
 	cd build/app; make; \
 	
 	@echo ">>> Done";
+	@echo ">>> Run ./palpatine [options] to start the application";
 
 

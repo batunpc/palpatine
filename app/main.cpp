@@ -1,6 +1,7 @@
 #include "Palpatine.h"
 #include "config.hpp"
 #include <argparse/argparse.hpp>
+#include <termcolor/termcolor.hpp>
 #include <iostream>
 
 using std::string, std::vector, std::ifstream, std::ofstream, std::endl;
