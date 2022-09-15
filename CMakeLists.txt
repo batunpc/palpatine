@@ -11,7 +11,7 @@ project(palpatine
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PALPATINE_EXE "Executable")
+set(PALPATINE_EXE "palpatine")
 
 # Call the addGitSubmodule function to add the library
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
