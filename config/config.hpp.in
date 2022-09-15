@@ -1,0 +1,13 @@
+#pragma once
+#include <cstdint>
+#include <stdexcept>
+#include <string_view>
+
+static constexpr std::string_view project_name = "@NAME@";
+static constexpr std::string_view project_version = "@VERSION@";
+static constexpr std::string_view project_author = "@AUTHOR@";
+static constexpr std::string_view project_description = "@DESCRIPTION@";
+
+static constexpr std::int32_t project_version_major{1};
+static constexpr std::int32_t project_version_minor{0};
+static constexpr std::int32_t project_version_patch{0};
