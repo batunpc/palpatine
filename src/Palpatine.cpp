@@ -8,15 +8,17 @@ namespace fs = std::filesystem;
 using std::string, std::vector, std::ifstream, std::ofstream, std::endl;
 
 // Constructor
-Palpatine::Palpatine(string output, string input, string stylesheet) {
+Palpatine::Palpatine(const char *output, const char *input,
+                     const char *stylesheet) {
   // paths to the input and output directories
   this->output = (fs::path(output) / "dist").string();
   this->input = input;
   // default stylesheet
   this->stylesheet = std::vector{string("./style.css")};
   // if a stylesheet is provided, add it to the stylesheet array
-  if (stylesheet != "")
+  if (stylesheet != NULL) {
     this->stylesheet.push_back(stylesheet);
+  }
   // remove the output directory if it exists
   fs::remove_all(this->output);
   // create the output directory if it doesn't exist

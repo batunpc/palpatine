@@ -7,7 +7,8 @@ using std::string;
 
 class Palpatine {
 public:
-  Palpatine(string, string, string);
+  // Palpatine(string, string, string);
+  Palpatine(const char *, const char *, const char *);
   void generate();
 
 private:

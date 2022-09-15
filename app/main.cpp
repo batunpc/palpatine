@@ -34,8 +34,12 @@ int main(int argc, char const *argv[]) {
   }
 
   // Create the generator object
-  Palpatine static_site_gen(program.get("-o"), program.present("-i").value(),
-                            program.get("-s"));
+  // Palpatine static_site_gen(program.get("-o"), program.present("-i").value(),
+  //                           program.get("-s"));
+  // static_site_gen.generate();
+  Palpatine static_site_gen(program.get("-o").c_str(),
+                            program.present("-i").value().c_str(),
+                            program.get("-s").c_str());
   static_site_gen.generate();
 
   return 0;
