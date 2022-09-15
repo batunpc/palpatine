@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 if [ -d build ]; then
-    ./build/app/palpatine "$@" # Pass all arguments to the executable
+    ./build/app/Executable "$@" # Pass all arguments to the executable
 else
     echo "Build directory not found. Run ' make prepare ' first."
 fi

@@ -3,7 +3,7 @@
 #include <vector>
 #pragma once
 
-using std::string;
+using std::string, std::vector;
 
 class Palpatine {
 public:
@@ -17,7 +17,6 @@ private:
 
   void create_stylesheet_file();
   void process_path(string, string, string);
-  void generate_page_file(string, string, std::vector<string>);
-  void generate_index_file(string, string, std::vector<string>,
-                           std::vector<string>);
+  void generate_page_file(string, string, vector<string>);
+  void generate_index_file(string, string, vector<string>, vector<string>);
 };
