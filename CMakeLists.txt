@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 
 project(palpatine
   VERSION 1.0.0
-  DESCRIPTION "Static site generator (SSG) for generating static websites from raw data "
+  DESCRIPTION "CLI static site generator."
   HOMEPAGE_URL "https://github.com/batunpc/palpatine"
   LANGUAGES CXX
 )

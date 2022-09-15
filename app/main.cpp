@@ -21,8 +21,21 @@ argparse::ArgumentParser setup_parser() {
   return program;
 }
 
-int main(int argc, char const *argv[]) {
+void print_banner() {
+  // Version and author
+  std::cout << termcolor::on_green << termcolor::bold
+            << " palpatine " << termcolor::reset << " v" << project_version << termcolor::dark << termcolor::reset << termcolor::bold
+            << " Made with " << termcolor::red << "❤" << termcolor::reset << " by "
+            << "Batuhan Ipci" << termcolor::reset << std::endl;
+  // description
+  std::cout << termcolor::dark
+            << project_description << termcolor::reset << std::endl;
+  //
+  std::cout << std::endl;
+}
 
+int main(int argc, char const *argv[]) {
+  print_banner();
   auto program = setup_parser();
   try {
     program.parse_args(argc, argv);
