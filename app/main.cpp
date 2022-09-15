@@ -6,6 +6,7 @@
 
 argparse::ArgumentParser setup_parser() {
   argparse::ArgumentParser program("palpatine", "0.0.1");
+
   program.add_argument("-i", "--input")
       .required()
       .help("The input file / directory");
@@ -23,6 +24,7 @@ argparse::ArgumentParser setup_parser() {
 
 void print_banner() {
   // Version and author
+  std::system("clear");
   std::cout << termcolor::on_green << termcolor::bold
             << " palpatine " << termcolor::reset << " v" << project_version << termcolor::dark << termcolor::reset << termcolor::bold
             << " Made with " << termcolor::red << "❤" << termcolor::reset << " by "
@@ -30,7 +32,6 @@ void print_banner() {
   // description
   std::cout << termcolor::dark
             << project_description << termcolor::reset << std::endl;
-  //
   std::cout << std::endl;
 }
 
@@ -39,8 +40,10 @@ int main(int argc, char const *argv[]) {
   auto program = setup_parser();
   try {
     program.parse_args(argc, argv);
+
   } catch (const std::runtime_error &err) {
-    std::cerr << err.what() << std::endl;
+    std::cerr << termcolor::red << err.what() << std::endl
+              << termcolor::reset;
     std::cerr << program;
     std::exit(1);
   }
