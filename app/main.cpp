@@ -4,9 +4,6 @@
 #include <termcolor/termcolor.hpp>
 #include <iostream>
 
-using std::string, std::vector, std::ifstream, std::ofstream, std::endl;
-namespace fs = std::filesystem;
-
 argparse::ArgumentParser setup_parser() {
   argparse::ArgumentParser program("palpatine", "0.0.1");
   program.add_argument("-i", "--input")
@@ -25,6 +22,7 @@ argparse::ArgumentParser setup_parser() {
 }
 
 int main(int argc, char const *argv[]) {
+
   auto program = setup_parser();
   try {
     program.parse_args(argc, argv);
