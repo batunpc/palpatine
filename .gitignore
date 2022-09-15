@@ -45,8 +45,6 @@ _deps
 
 /dist
 
-./vscode/c_cpp_properties.json
-
 # General
 .DS_Store
 .AppleDouble
@@ -74,3 +72,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+.vscode/c_cpp_properties.json
