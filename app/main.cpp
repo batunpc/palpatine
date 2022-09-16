@@ -5,7 +5,7 @@
 #include <termcolor/termcolor.hpp>
 
 argparse::ArgumentParser setup_parser() {
-  argparse::ArgumentParser program("palpatine");
+  argparse::ArgumentParser program("palpatine", "0.0.1");
   program.add_argument("-i", "--input")
       .required()
       .help("The input file / directory");
@@ -20,7 +20,6 @@ argparse::ArgumentParser setup_parser() {
 }
 
 void print_banner() {
-  // Version and author
   std::system("clear");
   std::cout << termcolor::on_grey << termcolor::bold << termcolor::white
             << " palpatine " << termcolor::reset << " v" << project_version

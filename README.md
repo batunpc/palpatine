@@ -63,3 +63,49 @@ CMake is used to confgure the following dependencies and they will be install in
 - [x]  Option to include a custom stylesheet link
 - [x]  Generate a list of all pages in a directory, with links to each page
 - [x]  Parse page title from the first line of the file if given
+
+### Configured with CMake
+
+The config folder in the repository is responsible to contain `config.hpp.in` file. The files ending with `.in` means that CMake will make particular changes to the file before it is used. In this case, the `config.hpp.in` file will be used to generate `config.hpp` file in the build directory. The `config.hpp` file will be used to configure the project in the manner of version control and setting. The `config.hpp.in` file is configured with the following variables:
+
+```cpp
+static constexpr std::string_view project_name = "@PROJECT_NAME@";
+static constexpr std::string_view project_author = "@PROJECT_AUTHOR@";
+static constexpr std::string_view project_version = "@PROJECT_VERSION@";
+static constexpr std::string_view project_description = "@PROJECT_DESCRIPTION@";
+```
+
+These variables will be replaced with the actual values in the root `CMakeLists.txt` file.
+
+### Add Git Submodules with CMake
+
+Primarily if we are using external libraries in any project, we can add them as git submodules. This is done by running the following command in the root directory of the project:
+
+```bash
+git submodule add <git-repo-url> <path-to-submodule>
+```
+
+
+There are many ways to use external libraries in CMake. One of the ways is to use git submodules. I have used git submodules to add the dependencies. According to my observations on other large C++ projects, they always have cmake folder in their root directory. This folder usually contains an function that handles the git submodules.
+
+```cmake
+#AddGitSubmodule.cmake
+function(add_git_submodule dir)
+  find_package(Git REQUIRED) # Ensure git is installed
+
+  if(NOT EXISTS ${dir}/CMakeLists.txt)
+    message(STATUS "🚨 Adding git submodule => ${dir}")
+    execute_process(COMMAND ${GIT_EXECUTABLE}
+      submodule update --init --recursive -- ${dir}
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}) # Absolute path to project root
+  endif()
+
+  add_subdirectory(${dir})
+endfunction(add_git_submodule)
+```
+
+That said, we can use this function to add git submodules in our project. In the root `CMakeLists.txt` file, we can add the following lines:
+
+```cmake
+add_git_submodule(path/to/submodule)
+```
