@@ -13,9 +13,11 @@ Palpatine::Palpatine(const char *output, const char *input,
   // paths to the input and output directories
   this->output = (fs::path(output) / "dist").string();
   this->input = input;
-  // default stylesheet
-  this->stylesheet = std::vector{string("./style.css")};
-  // if a stylesheet is provided, add it to the stylesheet array
+  // animated stylesheet
+  this->stylesheet =
+      std::vector{string("https://cdnjs.cloudflare.com/ajax/libs/animate.css/"
+                         "4.1.1/animate.min.css")};
+
   if (stylesheet != NULL) {
     this->stylesheet.push_back(stylesheet);
   }
@@ -106,17 +108,17 @@ void Palpatine::generate_page_file(string output, string title,
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>)"
+            <title> )"
        << title << "</title>\n";
   for (auto &ss : stylesheet)
     html << R"(<link rel="stylesheet" href=")" << ss << R"(">)" << endl;
   html << R"(</head>
         <body>
-            <div class="titlebar">
-                <h1>)"
+            <div>
+                <h1 class="animate__animated animate__bounce">)"
        << title << R"(</h1>
             </div>
-            <div class="content">)";
+            <div>)";
   for (auto &p : paragraphs)
     html << "<p>" << p << "</p>" << endl;
   html << R"(</div>
@@ -141,18 +143,17 @@ void Palpatine::generate_index_file(string output, string title,
     html << R"(<link rel="stylesheet" href=")" << ss << R"(">)" << endl;
   html << R"(</head>
         <body>
-            <div class="titlebar">
+            <div>
                 <h1>)"
        << title << R"(</h1>
             </div>
-            <div class="content">
+            <div>
                 <ul>)";
   for (auto &dir : directories)
-    html << R"(<li class="folder"><a href=")" << dir << R"(/">)" << dir
-         << "</a></li>" << endl;
+    html << R"(<li><a href=")" << dir << R"(/">)" << dir << "</a></li>" << endl;
   for (auto &file : files)
-    html << R"(<li class="file"><a href=")" << file << R"(.html">)" << file
-         << "</a></li>" << endl;
+    html << R"(<li><a href=")" << file << R"(.html">)" << file << "</a></li>"
+         << endl;
   html << R"(</ul>
             </div>
         </body>
