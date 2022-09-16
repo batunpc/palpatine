@@ -21,7 +21,7 @@ argparse::ArgumentParser setup_parser() {
 void print_banner() {
   // Version and author
   std::system("clear");
-  std::cout << termcolor::on_green << termcolor::bold
+  std::cout << termcolor::on_grey << termcolor::bold << termcolor::white
             << " palpatine " << termcolor::reset << " v" << project_version << termcolor::dark << termcolor::reset << termcolor::bold
             << " Made with " << termcolor::red << "❤" << termcolor::reset << " by "
             << "Batuhan Ipci" << termcolor::reset << std::endl;
