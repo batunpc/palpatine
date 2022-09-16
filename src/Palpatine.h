@@ -15,7 +15,6 @@ private:
   string input, output;
   std::vector<string> stylesheet;
 
-  void create_stylesheet_file();
   void process_path(string, string, string);
   void generate_page_file(string, string, vector<string>);
   void generate_index_file(string, string, vector<string>, vector<string>);

@@ -1,8 +1,8 @@
 #include "Palpatine.h"
 #include "config.hpp"
 #include <argparse/argparse.hpp>
-#include <termcolor/termcolor.hpp>
 #include <iostream>
+#include <termcolor/termcolor.hpp>
 
 argparse::ArgumentParser setup_parser() {
   argparse::ArgumentParser program("palpatine");
@@ -13,7 +13,8 @@ argparse::ArgumentParser setup_parser() {
       .default_value(std::string("."))
       .help("The output directory (where dist folder will be created)");
   program.add_argument("-s", "--stylesheet")
-      .default_value(std::string(""))
+      .default_value(std::string(
+          "https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css"))
       .help("The stylesheet file link");
   return program;
 }
@@ -22,12 +23,14 @@ void print_banner() {
   // Version and author
   std::system("clear");
   std::cout << termcolor::on_grey << termcolor::bold << termcolor::white
-            << " palpatine " << termcolor::reset << " v" << project_version << termcolor::dark << termcolor::reset << termcolor::bold
-            << " Made with " << termcolor::red << "❤" << termcolor::reset << " by "
+            << " palpatine " << termcolor::reset << " v" << project_version
+            << termcolor::dark << termcolor::reset << termcolor::bold
+            << " Made with " << termcolor::red << "❤" << termcolor::reset
+            << " by "
             << "Batuhan Ipci" << termcolor::reset << std::endl;
   // description
-  std::cout << termcolor::dark
-            << project_description << termcolor::reset << std::endl;
+  std::cout << termcolor::dark << project_description << termcolor::reset
+            << std::endl;
   std::cout << std::endl;
 }
 
@@ -50,8 +53,8 @@ int main(int argc, char const *argv[]) {
   Palpatine palpatine(output, input, style);
   palpatine.generate();
 
-  std::cout << termcolor::green << "Created at: "
-            << termcolor::reset << output << "/dist" << std::endl;
+  std::cout << termcolor::green << "Created at: " << termcolor::reset << output
+            << "/dist" << std::endl;
 
   return 0;
 }

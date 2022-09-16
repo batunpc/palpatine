@@ -23,81 +23,9 @@ Palpatine::Palpatine(const char *output, const char *input,
   fs::remove_all(this->output);
   // create the output directory if it doesn't exist
   fs::create_directory(this->output);
-  // create default stylesheet file
-  this->create_stylesheet_file();
 }
 
 void Palpatine::generate() { process_path(input, output, "index.html"); }
-
-void Palpatine::create_stylesheet_file() {
-  string css = R"(
-        ul { 
-            list-style: none; 
-            padding: 0;
-            margin: 0;
-        }
-
-        li { 
-            padding-left: 1rem; 
-            text-indent: -0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        li.folder::before {
-            content: "📁 ";
-        }
-
-        li.file::before {
-            content: "📄 ";
-        }
-
-        a { 
-            text-decoration: none; 
-            color: #008080; 
-        }
-
-        a:hover { 
-            text-decoration: dotted underline; 
-        }
-
-        body { 
-            background-color: #bbb; 
-        }
-
-        div.titlebar {
-            background-color: #008080;
-            color: #fff;
-            padding: 3px;
-            position: fixed;
-            z-index: 10;
-            top: 0;
-            left: 0;
-            right: 0;
-            border-bottom: 1px solid #fff;
-            height: 80px;
-        }
-
-        h1 { 
-            font-weight: normal;
-            text-align: center; 
-            font-family: 'Brush Script MT', cursive; 
-        }
-
-        div.content { 
-            max-width: 920px; font-family: Arial, sans-serif; 
-            padding: 20px; 
-            border: 1px solid #111; 
-            background-color: #fff; 
-            margin-left: auto; 
-            margin-right: auto;
-            margin-top: 100px;
-            margin-bottom: 20px;
-        }
-        )";
-  std::ofstream css_out_file(fs::path(output) / "style.css");
-  css_out_file << css << std::endl;
-  css_out_file.close();
-}
 
 void Palpatine::process_path(string input, string output, string name) {
   if (fs::is_directory(input)) {
