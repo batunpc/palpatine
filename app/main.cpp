@@ -5,20 +5,16 @@
 #include <iostream>
 
 argparse::ArgumentParser setup_parser() {
-  argparse::ArgumentParser program("palpatine", "0.0.1");
-
+  argparse::ArgumentParser program("palpatine");
   program.add_argument("-i", "--input")
       .required()
       .help("The input file / directory");
-
   program.add_argument("-o", "--output")
       .default_value(std::string("."))
       .help("The output directory (where dist folder will be created)");
-
   program.add_argument("-s", "--stylesheet")
       .default_value(std::string(""))
       .help("The stylesheet file link");
-
   return program;
 }
 
@@ -40,19 +36,22 @@ int main(int argc, char const *argv[]) {
   auto program = setup_parser();
   try {
     program.parse_args(argc, argv);
-
   } catch (const std::runtime_error &err) {
-    std::cerr << termcolor::red << err.what() << std::endl
+    std::cerr << termcolor::red << termcolor::bold << err.what() << std::endl
               << termcolor::reset;
     std::cerr << program;
     std::exit(1);
   }
 
-  // Create the generator obj
-  Palpatine static_site_gen(program.get("-o").c_str(),
-                            program.present("-i").value().c_str(),
-                            program.get("-s").c_str());
-  static_site_gen.generate();
+  auto output = program.get("-o").c_str();
+  auto input = program.get("-i").c_str();
+  auto style = program.get("-s").c_str();
+
+  Palpatine palpatine(output, input, style);
+  palpatine.generate();
+
+  std::cout << termcolor::green << "Created at: "
+            << termcolor::reset << output << "/dist" << std::endl;
 
   return 0;
 }
