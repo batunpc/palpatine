@@ -16,8 +16,6 @@
 To clone and run this application, you'll need [Git](https://git-scm.com), C++ compiler with `std=c++17` supported and [CMake](https://cmake.org/) to build the project.
 
 ```bash
-
-```bash
 # Clone this repository
 $ git clone https://github.com/batunpc/palpatine
 
