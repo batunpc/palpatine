@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace fs = std::filesystem;
-using std::string, std::vector, std::ifstream, std::ofstream, std::endl;
+using std::string, std::vector, std::ifstream, std::ofstream;
 
 // Constructor
 Palpatine::Palpatine(const char *output, const char *input,
@@ -59,19 +59,16 @@ void Palpatine::process_path(string input, string output, string name) {
       generate_index_file((fs::path(output) / name).string(), title,
                           directories, files);
     }
-
   } else if (fs::path(input).extension() == ".txt") {
     std::string title = fs::path(input).stem().string();
-
     string file_str;
-    {
-      // Read file contents
-      ifstream file_data(input);
-      std::stringstream str_stream;
-      str_stream << file_data.rdbuf();
-      file_str = str_stream.str();
-      file_data.close();
-    }
+
+    // Read file contents
+    ifstream file_data(input);
+    std::stringstream str_stream;
+    str_stream << file_data.rdbuf();
+    file_str = str_stream.str();
+    file_data.close();
 
     std::vector<string> paragraphs;
     auto two_newline = file_str.find("\n\n\n");
@@ -94,8 +91,10 @@ void Palpatine::process_path(string input, string output, string name) {
           file_str.substr(last_blank_line, next_blank_line - last_blank_line));
       last_blank_line = next_blank_line + 2;
     }
-
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+  } else {
+    std::cout << "Error: " << input << " is not a valid file type" << std::endl;
+    std::terminate();
   }
 }
 
@@ -110,7 +109,8 @@ void Palpatine::generate_page_file(string output, string title,
     <title>)"
        << title << "</title>\n";
   for (auto &ss : stylesheet)
-    html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)" << endl;
+    html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)"
+         << std::endl;
   html << R"(</head>
 
 <body>
@@ -120,7 +120,7 @@ void Palpatine::generate_page_file(string output, string title,
     </div>
     <div>)";
   for (auto &p : paragraphs)
-    html << "<p>" << p << "</p>" << endl;
+    html << "<p>" << p << "</p>" << std::endl;
   html << R"(</div>
 </body>
 </html>)";
@@ -140,7 +140,8 @@ void Palpatine::generate_index_file(string output, string title,
     <title>)"
        << title << "</title>\n";
   for (auto &ss : stylesheet)
-    html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)" << endl;
+    html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)"
+         << std::endl;
   html << R"(</head>
 
 <body>
