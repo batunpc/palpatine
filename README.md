@@ -14,7 +14,7 @@
 Palpatine is a minimal static site generator (SSG) built with C++. It is a command line tool that takes a directory of raw data (currently only txt) and generates a static website. It is designed to be fast, simple and easy to use.
 
 ### Requirements 
-#### UNIX
+#### macOS
 First install [Homebrew](https://brew.sh/) if you don't have it already. 
 If you don't have Xcode installed, you can at least run the `xcode-select --install` command to install the command line tools. This will ensure you have (clang++, gcc, git etc.) installed.\
 Test if you have the required tools with;
