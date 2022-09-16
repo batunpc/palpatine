@@ -102,28 +102,28 @@ void Palpatine::process_path(string input, string output, string name) {
 void Palpatine::generate_page_file(string output, string title,
                                    vector<string> paragraphs) {
   ofstream html(output);
-  html << R"(
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title> )"
+  html << R"(<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>)"
        << title << "</title>\n";
   for (auto &ss : stylesheet)
-    html << R"(<link rel="stylesheet" href=")" << ss << R"(">)" << endl;
+    html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)" << endl;
   html << R"(</head>
-        <body>
-            <div>
-                <h1 class="animate__animated animate__bounce">)"
+
+<body>
+    <div>
+        <h1 class="animate__animated animate__bounce">)"
        << title << R"(</h1>
-            </div>
-            <div>)";
+    </div>
+    <div>)";
   for (auto &p : paragraphs)
     html << "<p>" << p << "</p>" << endl;
   html << R"(</div>
-        </body>
-        </html>)";
+</body>
+</html>)";
   html.close();
 }
 
@@ -131,32 +131,35 @@ void Palpatine::generate_index_file(string output, string title,
                                     vector<string> directories,
                                     vector<string> files) {
   ofstream html(output);
-  html << R"(
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>)"
+  html << R"(<!DOCTYPE html> 
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>)"
        << title << "</title>\n";
   for (auto &ss : stylesheet)
-    html << R"(<link rel="stylesheet" href=")" << ss << R"(">)" << endl;
+    html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)" << endl;
   html << R"(</head>
-        <body>
-            <div>
-                <h1>)"
+
+<body>
+    <div>
+        <h1>)"
        << title << R"(</h1>
-            </div>
-            <div>
-                <ul>)";
+    </div>
+    <div>
+        <ul>)";
   for (auto &dir : directories)
-    html << R"(<li><a href=")" << dir << R"(/">)" << dir << "</a></li>" << endl;
+    html << R"(<li><a href=")" << dir << R"(/">)" << dir << "</a></li>";
   for (auto &file : files)
-    html << R"(<li><a href=")" << file << R"(.html">)" << file << "</a></li>"
-         << endl;
-  html << R"(</ul>
-            </div>
-        </body>
-        </html>)";
+    html << R"(
+          <li><a href=")"
+         << file << R"(.html">)" << file << "</a></li>";
+  html << R"(
+        </ul>
+    </div>
+</body>
+</html>)";
   html.close();
 }

@@ -5,7 +5,7 @@
 #include <termcolor/termcolor.hpp>
 
 argparse::ArgumentParser setup_parser() {
-  argparse::ArgumentParser program("palpatine", "0.0.1");
+  argparse::ArgumentParser program("palpatine");
   program.add_argument("-i", "--input")
       .required()
       .help("The input file / directory");
