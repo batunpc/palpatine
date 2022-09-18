@@ -4,10 +4,11 @@
 <img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="200">
   <br>
   palpatine
-  <br>
 </h1>
 
-<h4 align="center">A minimal static site generator (SSG) built with C++ </h4>
+<h4 align="center">A minimal static site generator (SSG) built with C++ <br><br>
+  <a href="https://emperor-palpatine.netlify.app/">View Demo</a>
+</h4>
 
 
 ## Overview 
@@ -51,7 +52,7 @@ $ ./palpatine -i <input> -o <output> -s <stylesheet>
 
 
 ### Dependencies
-CMake is used to confgure the following dependencies and they will be install in the `external` directory:
+CMake is used to confgure the following dependencies and they will be installed in the `external` directory:
 - [p-ranav/argparse](https://github.com/p-ranav/argparse) - A single-file header-only C++11 library for parsing command line arguments.
 - [ikalnytskyi/termcolor](https://github.com/ikalnytskyi/termcolor) - A header-only C++ library for printing colored messages to a terminal.
 
