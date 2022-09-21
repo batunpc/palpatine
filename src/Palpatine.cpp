@@ -101,15 +101,8 @@ void Palpatine::process_path(string input, string output, string name) {
 
 void Palpatine::generate_page_file(string output, string title,
                                    vector<string> paragraphs) {
-
   ofstream html(output);
-  html << R"(<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>)"
-       << title << "</title>\n";
+  HMTLPLUS::header(html, title);
   for (auto &ss : stylesheet)
     html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)"
          << std::endl;
@@ -133,14 +126,7 @@ void Palpatine::generate_index_file(string output, string title,
                                     vector<string> directories,
                                     vector<string> files) {
   ofstream html(output);
-  html << R"(<!DOCTYPE html> 
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>)"
-       << title << "</title>\n";
+  HMTLPLUS::header(html, title);
   for (auto &ss : stylesheet)
     html << R"(    <link rel="stylesheet" href=")" << ss << R"(">)"
          << std::endl;
