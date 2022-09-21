@@ -4,6 +4,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <filesystem>
+#include <regex>
 
 namespace fs = std::filesystem;
 using std::string, std::vector, std::ifstream, std::ofstream;
@@ -45,7 +47,7 @@ void Palpatine::process_path(string input, string output, string name) {
         process_path(in_path.string(), out_path.string(), "index.html");
 
         directories.push_back(in_path.filename().string());
-      } else if (entry.is_regular_file() && in_path.extension() == ".txt") {
+      } else if (entry.is_regular_file() && (in_path.extension() == ".txt" || in_path.extension() == ".md")) {
         // Create the page file
         process_path(in_path.string(), output,
                      in_path.stem().string() + ".html");
@@ -93,7 +95,41 @@ void Palpatine::process_path(string input, string output, string name) {
       last_blank_line = next_blank_line + 2;
     }
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
-  } else {
+  } else if (fs::path(input).extension() == ".md") {
+    std::string title = fs::path(input).stem().string();
+    string file_str;
+
+    // Read file contents
+    ifstream file_data(input);
+    std::stringstream str_stream;
+    str_stream << file_data.rdbuf();
+    file_str = str_stream.str();
+    file_data.close();
+
+    std::vector<string> paragraphs;
+    std::size_t last_blank_line = 0;
+
+    // Extract the data into paragraphs
+    while (last_blank_line < file_str.size() &&
+           last_blank_line != string::npos) {
+      std::size_t next_blank_line = file_str.find("\n\n", last_blank_line);
+      if (next_blank_line == string::npos)
+        break;
+
+      paragraphs.push_back(
+          file_str.substr(last_blank_line, next_blank_line - last_blank_line));
+      last_blank_line = next_blank_line + 2;
+    }
+
+    paragraphs.push_back(
+          file_str.substr(last_blank_line));
+    
+    std::regex link (R"(\[([^\]]*)\]\(([^\)]*)\))");
+    for (auto& paragraph : paragraphs)
+      paragraph = std::regex_replace(paragraph, link, "<a href=\"$2\">$1</a>");
+    generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+  }
+    else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
     std::terminate();
   }
@@ -102,9 +138,7 @@ void Palpatine::process_path(string input, string output, string name) {
 void Palpatine::generate_page_file(string output, string title,
                                    vector<string> paragraphs) {
   ofstream html(output);
-
   HMTLPLUS::header(html, title, this->stylesheet);
-
   html << R"(<body>
     <div>
         <h1 class="animate__animated animate__bounce">)"
