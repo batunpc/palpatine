@@ -10,10 +10,10 @@ public:
   // Palpatine(string, string, string);
   Palpatine(const char *, const char *, const char *);
   void generate();
+  static std::vector<string> stylesheet;
 
 private:
   string input, output;
-  std::vector<string> stylesheet;
 
   void process_path(string, string, string);
   void generate_page_file(string, string, vector<string>);

@@ -9,7 +9,7 @@
 <h4 align="center">A minimal static site generator (SSG) built with C++ <br><br>
   <a href="https://emperor-palpatine.netlify.app/">Demo</a> .
   <a href="https://dev.to/batunpc/palpatine-release10-350g">Blog</a>
-  
+
 </h4>
 
 
