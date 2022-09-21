@@ -8,8 +8,12 @@ using std::string, std::vector;
 class Palpatine {
 public:
   // Palpatine(string, string, string);
+  Palpatine();
   Palpatine(const char *, const char *, const char *);
   void generate();
+
+  vector<string> get_stylesheet() { return stylesheet; }
+  void test() { std::cout << "test" << std::endl; }
 
 private:
   string input, output;
