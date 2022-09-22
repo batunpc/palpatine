@@ -78,6 +78,11 @@
     "variant": "cpp",
     "vector": "cpp",
     "algorithm": "cpp",
-    "bit": "cpp"
-  }
+    "bit": "cpp",
+    "__functional_base": "cpp",
+    "functional": "cpp",
+    "iterator": "cpp",
+    "utility": "cpp"
+  },
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
