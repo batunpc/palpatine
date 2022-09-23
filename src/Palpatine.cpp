@@ -1,11 +1,11 @@
 #include "Palpatine.h"
 #include "htmlplus.h"
+#include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <vector>
-#include <filesystem>
-#include <regex>
 
 namespace fs = std::filesystem;
 using std::string, std::vector, std::ifstream, std::ofstream;
@@ -47,7 +47,8 @@ void Palpatine::process_path(string input, string output, string name) {
         process_path(in_path.string(), out_path.string(), "index.html");
 
         directories.push_back(in_path.filename().string());
-      } else if (entry.is_regular_file() && (in_path.extension() == ".txt" || in_path.extension() == ".md")) {
+      } else if (entry.is_regular_file() && (in_path.extension() == ".txt" ||
+                                             in_path.extension() == ".md")) {
         // Create the page file
         process_path(in_path.string(), output,
                      in_path.stem().string() + ".html");
@@ -121,15 +122,26 @@ void Palpatine::process_path(string input, string output, string name) {
       last_blank_line = next_blank_line + 2;
     }
 
-    paragraphs.push_back(
-          file_str.substr(last_blank_line));
-    
-    std::regex link (R"(\[([^\]]*)\]\(([^\)]*)\))");
-    for (auto& paragraph : paragraphs)
+    paragraphs.push_back(file_str.substr(last_blank_line));
+
+    std::regex link(R"(\[([^\]]*)\]\(([^\)]*)\))");
+    std::regex image(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
+
+    /* for images */
+    for (auto &paragraph : paragraphs) {
+      std::smatch match;
+      while (std::regex_search(paragraph, match, image)) {
+        std::string replacement = R"(<img src=")" + match[2].str() +
+                                  R"(" alt=")" + match[1].str() + R"(">)";
+        paragraph.replace(match.position(), match.length(), replacement);
+      }
+    }
+
+    /* check if link */
+    for (auto &paragraph : paragraphs)
       paragraph = std::regex_replace(paragraph, link, "<a href=\"$2\">$1</a>");
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
-  }
-    else {
+  } else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
     std::terminate();
   }
@@ -146,7 +158,8 @@ void Palpatine::generate_page_file(string output, string title,
     </div>
     <div>)";
   for (auto &p : paragraphs)
-    html << "<p>" << p << "</p>" << std::endl;
+    html << R"(<p>)" << p << R"(</p>)";
+
   html << R"(</div>
 </body>
 </html>)";
