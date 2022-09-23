@@ -14,7 +14,7 @@
 
 
 ## Overview 
-Palpatine is a minimal static site generator (SSG) built with C++. It is a command line tool that takes a directory of raw data (currently only txt) and generates a static website. It is designed to be fast, simple and easy to use.
+Palpatine is a minimal static site generator (SSG) built with C++. It is a command line tool that takes a directory of raw data (.txt files and markdown) and generates a static website. It is designed to be fast, simple and easy to use.
 
 ### Requirements 
 #### macOS
@@ -66,6 +66,7 @@ CMake is used to confgure the following dependencies and they will be installed 
 - [x]  Option to include a custom stylesheet link
 - [x]  Generate a list of all pages in a directory, with links to each page
 - [x]  Parse page title from the first line of the file if given
+- [x]  Supports the 'link' feature of markdown and text files only
 
 ### Configured with CMake
 
