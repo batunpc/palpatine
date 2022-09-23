@@ -136,8 +136,6 @@ void Palpatine::process_path(string input, string output, string name) {
         paragraph.replace(match.position(), match.length(), replacement);
       }
     }
-
-    /* check if link */
     for (auto &paragraph : paragraphs)
       paragraph = std::regex_replace(paragraph, link, "<a href=\"$2\">$1</a>");
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
@@ -151,19 +149,7 @@ void Palpatine::generate_page_file(string output, string title,
                                    vector<string> paragraphs) {
   ofstream html(output);
   HMTLPLUS::header(html, title, this->stylesheet);
-  html << R"(<body>
-    <div>
-        <h1 class="animate__animated animate__bounce">)"
-       << title << R"(</h1>
-    </div>
-    <div>)";
-  for (auto &p : paragraphs)
-    html << R"(<p>)" << p << R"(</p>)";
-
-  html << R"(</div>
-</body>
-</html>)";
-  html.close();
+  HMTLPLUS::page_body(html, title, paragraphs);
 }
 
 void Palpatine::generate_index_file(string output, string title,

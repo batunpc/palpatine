@@ -73,3 +73,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .vscode/c_cpp_properties.json
+
+# Local Netlify folder
+.netlify

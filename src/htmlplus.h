@@ -20,4 +20,21 @@ void header(std::ostream &out, std::string title,
         << ss << R"(">)" << std::endl;
   out << R"(</head>)";
 }
+
+void page_body(std::ostream &out, std::string title,
+               std::vector<string> paragraphs) {
+  out << R"(
+<body>
+    <div>
+        <h1 class="animate__animated animate__bounce">)"
+      << title << R"(</h1>
+    </div>
+    <div>)";
+  for (auto &p : paragraphs)
+    out << R"(<p>)" << p << R"(</p>)";
+  out << R"(
+    </div>
+</body>
+</html>)";
+}
 } // namespace HMTLPLUS
