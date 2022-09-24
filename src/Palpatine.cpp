@@ -16,11 +16,7 @@ Palpatine::Palpatine(const char *output, const char *input,
   // paths to the input and output directories
   this->output = (fs::path(output) / "dist").string();
   this->input = input;
-  // animated stylesheet
-  this->stylesheet =
-      std::vector{string("https://cdnjs.cloudflare.com/ajax/libs/animate.css/"
-                         "4.1.1/animate.min.css")};
-
+  this->stylesheet = std::vector{string("")};
   if (stylesheet != NULL) {
     this->stylesheet.push_back(stylesheet);
   }
@@ -157,23 +153,5 @@ void Palpatine::generate_index_file(string output, string title,
                                     vector<string> files) {
   ofstream html(output);
   HMTLPLUS::header(html, title, this->stylesheet);
-  html << R"(<body>
-    <div>
-        <h1>)"
-       << title << R"(</h1>
-    </div>
-    <div>
-        <ul>)";
-  for (auto &dir : directories)
-    html << R"(<li><a href=")" << dir << R"(/">)" << dir << "</a></li>";
-  for (auto &file : files)
-    html << R"(
-          <li><a href=")"
-         << file << R"(.html">)" << file << "</a></li>";
-  html << R"(
-        </ul>
-    </div>
-</body>
-</html>)";
-  html.close();
+  HMTLPLUS::index_body(html, title, directories, files);
 }

@@ -83,7 +83,8 @@
     "functional": "cpp",
     "iterator": "cpp",
     "utility": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "__availability": "cpp"
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
