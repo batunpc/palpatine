@@ -122,6 +122,7 @@ void Palpatine::process_path(string input, string output, string name) {
 
     std::regex link(R"(\[([^\]]*)\]\(([^\)]*)\))");
     std::regex image(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
+    std::regex hr(R"(---)");
 
     /* for images */
     for (auto &paragraph : paragraphs) {
@@ -132,8 +133,11 @@ void Palpatine::process_path(string input, string output, string name) {
         paragraph.replace(match.position(), match.length(), replacement);
       }
     }
-    for (auto &paragraph : paragraphs)
+    for (auto &paragraph : paragraphs) {
       paragraph = std::regex_replace(paragraph, link, "<a href=\"$2\">$1</a>");
+      paragraph = std::regex_replace(paragraph, hr, "\n<hr>\n");
+    }
+
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
   } else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
