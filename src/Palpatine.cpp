@@ -122,7 +122,7 @@ void Palpatine::process_path(string input, string output, string name) {
 
     std::regex link(R"(\[([^\]]*)\]\(([^\)]*)\))");
     std::regex image(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
-    std::regex hr(R"(---)");
+    std::regex hr(R"(^( ?[-_*]){3} ?[\t]*$)");
 
     /* for images */
     for (auto &paragraph : paragraphs) {
