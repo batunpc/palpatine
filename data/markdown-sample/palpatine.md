@@ -9,3 +9,4 @@ This is the *[Markdown Guide](https://www.markdownguide.org)*.
 
 ![Image of Palpatine](https://static.wikia.nocookie.net/starwars/images/d/d8/Emperor_Sidious.png)
 
+Code: `printf("Hello World!");`

@@ -123,6 +123,7 @@ void Palpatine::process_path(string input, string output, string name) {
     std::regex link(R"(\[([^\]]*)\]\(([^\)]*)\))");
     std::regex image(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
     std::regex hr(R"(^( ?[-_*]){3} ?[\t]*$)");
+    std::regex code(R"((\s)`((?:[^`\\]|\\.)*)`)");
 
     /* for images */
     for (auto &paragraph : paragraphs) {
@@ -135,6 +136,7 @@ void Palpatine::process_path(string input, string output, string name) {
     }
     for (auto &paragraph : paragraphs) {
       paragraph = std::regex_replace(paragraph, link, "<a href=\"$2\">$1</a>");
+      paragraph = std::regex_replace(paragraph, code, "$1<code>$2</code>");
       paragraph = std::regex_replace(paragraph, hr, "\n<hr>\n");
     }
 
