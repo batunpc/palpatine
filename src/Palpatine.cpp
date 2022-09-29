@@ -1,5 +1,6 @@
 #include "Palpatine.h"
 #include "htmlplus.h"
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -91,6 +92,7 @@ void Palpatine::process_path(string input, string output, string name) {
           file_str.substr(last_blank_line, next_blank_line - last_blank_line));
       last_blank_line = next_blank_line + 2;
     }
+    paragraphs.push_back(file_str.substr(last_blank_line));
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
   } else if (fs::path(input).extension() == ".md") {
     std::string title = fs::path(input).stem().string();
@@ -122,7 +124,7 @@ void Palpatine::process_path(string input, string output, string name) {
 
     std::regex link(R"(\[([^\]]*)\]\(([^\)]*)\))");
     std::regex image(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
-    std::regex hr(R"(^( ?[-_*]){3} ?[\t]*$)");
+    std::regex hr(R"(---)");
     std::regex code(R"((\s)`((?:[^`\\]|\\.)*)`)");
 
     /* for images */
@@ -139,7 +141,6 @@ void Palpatine::process_path(string input, string output, string name) {
       paragraph = std::regex_replace(paragraph, code, "$1<code>$2</code>");
       paragraph = std::regex_replace(paragraph, hr, "\n<hr>\n");
     }
-
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
   } else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
