@@ -1,4 +1,5 @@
 #include "Palpatine.h"
+#include "File.h"
 #include "htmlplus.h"
 #include <algorithm>
 #include <filesystem>
@@ -9,7 +10,7 @@
 #include <vector>
 
 namespace fs = std::filesystem;
-using std::string, std::vector, std::ifstream, std::ofstream;
+using std::vector, std::ifstream, std::ofstream;
 
 // Constructor
 Palpatine::Palpatine(const char *output, const char *input,
@@ -52,7 +53,6 @@ void Palpatine::process_path(string input, string output, string name) {
 
         files.push_back(in_path.stem().string());
       }
-
       string title = fs::relative(input, this->input).string();
       if (title == ".")
         title = "Homepage";
@@ -61,15 +61,8 @@ void Palpatine::process_path(string input, string output, string name) {
                           directories, files);
     }
   } else if (fs::path(input).extension() == ".txt") {
-    std::string title = fs::path(input).stem().string();
-    string file_str;
-
-    // Read file contents
-    ifstream file_data(input);
-    std::stringstream str_stream;
-    str_stream << file_data.rdbuf();
-    file_str = str_stream.str();
-    file_data.close();
+    string title = fs::path(input).stem().string();
+    string file_str = file_sdds::read_file(input);
 
     std::vector<string> paragraphs;
     auto two_newline = file_str.find("\n\n\n");
@@ -80,7 +73,6 @@ void Palpatine::process_path(string input, string output, string name) {
       title = file_str.substr(0, two_newline);
       last_blank_line = two_newline + 3;
     }
-
     // Extract the data into paragraphs
     while (last_blank_line < file_str.size() &&
            last_blank_line != string::npos) {
@@ -95,15 +87,8 @@ void Palpatine::process_path(string input, string output, string name) {
     paragraphs.push_back(file_str.substr(last_blank_line));
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
   } else if (fs::path(input).extension() == ".md") {
-    std::string title = fs::path(input).stem().string();
-    string file_str;
-
-    // Read file contents
-    ifstream file_data(input);
-    std::stringstream str_stream;
-    str_stream << file_data.rdbuf();
-    file_str = str_stream.str();
-    file_data.close();
+    string title = fs::path(input).stem().string();
+    string file_str = file_sdds::read_file(input);
 
     std::vector<string> paragraphs;
     std::size_t last_blank_line = 0;
@@ -131,8 +116,8 @@ void Palpatine::process_path(string input, string output, string name) {
     for (auto &paragraph : paragraphs) {
       std::smatch match;
       while (std::regex_search(paragraph, match, image)) {
-        std::string replacement = R"(<img src=")" + match[2].str() +
-                                  R"(" alt=")" + match[1].str() + R"(">)";
+        string replacement = R"(<img src=")" + match[2].str() + R"(" alt=")" +
+                             match[1].str() + R"(">)";
         paragraph.replace(match.position(), match.length(), replacement);
       }
     }

@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(PALPATINE_LIB "Libraries")
 set(PALPATINE_EXE "palpatine")
+set(CMAKE_BUILD_TYPE "Debug")
 
 # Call the addGitSubmodule function to add the library
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
