@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include <vector>
 namespace file_sdds {
 std::string read_file(std::string file_name) {
   std::string file_str;

@@ -40,8 +40,7 @@ void header(std::ostream &out, std::string title,
   }
 }
 
-void page_body(std::ostream &out, std::string title,
-               std::vector<string> paragraphs) {
+void page_body(std::ostream &out, std::vector<string> paragraphs) {
   for (auto &p : paragraphs)
     // if image is found do not add <p> tag
     if (p.find("<img") != std::string::npos)

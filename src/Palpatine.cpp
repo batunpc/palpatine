@@ -19,9 +19,8 @@ Palpatine::Palpatine(const char *output, const char *input,
   this->output = (fs::path(output) / "dist").string();
   this->input = input;
   this->stylesheet = std::vector{string("")};
-  if (stylesheet != NULL) {
+  if (stylesheet != NULL)
     this->stylesheet.push_back(stylesheet);
-  }
   // remove the output directory if it exists
   fs::remove_all(this->output);
   // create the output directory if it doesn't exist
@@ -40,7 +39,6 @@ void Palpatine::process_path(string input, string output, string name) {
         auto out_path = fs::path(output) / in_path.filename();
         // Create the directory
         fs::create_directory(out_path);
-
         // Create the index file for the directory
         process_path(in_path.string(), out_path.string(), "index.html");
 
@@ -56,7 +54,6 @@ void Palpatine::process_path(string input, string output, string name) {
       string title = fs::relative(input, this->input).string();
       if (title == ".")
         title = "Homepage";
-
       generate_index_file((fs::path(output) / name).string(), title,
                           directories, files);
     }
@@ -79,7 +76,6 @@ void Palpatine::process_path(string input, string output, string name) {
       std::size_t next_blank_line = file_str.find("\n\n", last_blank_line);
       if (next_blank_line == string::npos)
         break;
-
       paragraphs.push_back(
           file_str.substr(last_blank_line, next_blank_line - last_blank_line));
       last_blank_line = next_blank_line + 2;
@@ -137,7 +133,7 @@ void Palpatine::generate_page_file(string output, string title,
                                    vector<string> paragraphs) {
   ofstream html(output);
   HMTLPLUS::header(html, title, this->stylesheet);
-  HMTLPLUS::page_body(html, title, paragraphs);
+  HMTLPLUS::page_body(html, paragraphs);
 }
 
 void Palpatine::generate_index_file(string output, string title,
