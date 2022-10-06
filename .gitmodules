@@ -4,6 +4,3 @@
 [submodule "external/termcolor"]
 	path = external/termcolor
 	url = https://github.com/ikalnytskyi/termcolor
-[submodule "external/json"]
-	path = external/json
-	url = https://github.com/netlify/cmake
