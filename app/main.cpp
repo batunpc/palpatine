@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include <argparse/argparse.hpp>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
 
 argparse::ArgumentParser setup_parser() {

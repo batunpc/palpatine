@@ -6,4 +6,4 @@
 	url = https://github.com/ikalnytskyi/termcolor
 [submodule "external/json"]
 	path = external/json
-	url = https://github.com/netlify/cmake
+	url = https://github.com/nlohmann/json
