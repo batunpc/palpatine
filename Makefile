@@ -7,7 +7,7 @@ prepare:
 	mkdir build; 
 	cd build; \
 	cmake -S .. -B .; \
-	cd build/app; make; \
+	make; \
 	
 	@echo ">>> Done";
 	@echo ">>> Run ./palpatine [options] to start the application";
