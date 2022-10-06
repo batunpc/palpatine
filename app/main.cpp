@@ -4,6 +4,7 @@
 #include <iostream>
 #include <termcolor/termcolor.hpp>
 
+
 argparse::ArgumentParser setup_parser() {
   argparse::ArgumentParser program("palpatine");
   program.add_argument("-i", "--input")
