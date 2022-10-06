@@ -24,6 +24,7 @@ include(AddGitSubmodule) # This will include cmake module files
 # Dependencies
 add_git_submodule("external/parser")
 add_git_submodule("external/termcolor")
+add_git_submodule("external/json")
 
 add_subdirectory(config)
 add_subdirectory(src)
