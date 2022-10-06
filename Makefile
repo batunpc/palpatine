@@ -1,3 +1,6 @@
+dependency:
+	cd build && cmake .. --graphviz=dependency.dot && dot -Tpng dependency.dot -o dependency.png
+
 prepare:
 	@echo ">>> Building palpatine ...";
 	@if [ -d ./build ]; then rm -rf ./build; fi
