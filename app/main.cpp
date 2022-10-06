@@ -17,7 +17,6 @@ argparse::ArgumentParser setup_parser(const std::vector<std::string> &argv) {
       .default_value(std::string(
           "https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css"))
       .help("The stylesheet file link");
-      // check if the stylesheet flag is valid url
   program.add_argument("-c", "--config").help("The config JSON file");
     if (!(std::count(argv.begin(), argv.end(), "-c") or
       std::count(argv.begin(), argv.end(), "--config"))) {
@@ -27,8 +26,6 @@ argparse::ArgumentParser setup_parser(const std::vector<std::string> &argv) {
     } else {
     program.add_argument("-i", "--input").help("The input file / directory");
     }
-    
-
   return program;
 }
 
@@ -56,6 +53,22 @@ int main(int argc, char const *argv[]) {
       std::cerr << "Configuration file not found at: " << *p_value << std::endl;
       std::exit(1);
     }
+    nlohmann::json config_json;
+    stream >> config_json;
+
+    if (config_json.find("input") == config_json.end()) {
+      std::cerr << "Input file / directory not specified in config file"
+                << std::endl;
+      std::exit(1);
+    }
+    
+    if (auto fn = program.present("-i"))
+      options["input"] = *fn;
+
+    for (auto &el : config_json.items())
+      options[el.key()] = el.value();
+  } else {
+    options["input"] = program.get("-i");
   }
 
   Palpatine palpatine(options["output"].c_str(), options["input"].c_str(),
