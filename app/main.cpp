@@ -1,11 +1,11 @@
 #include "Palpatine.h"
 #include "Utils.h"
-#include <argparse/argparse.hpp>
-#include <iostream>
-#include <nlohmann/json.hpp>
-#include <fstream>
 #include <algorithm>
+#include <argparse/argparse.hpp>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 
 argparse::ArgumentParser setup_parser(const std::vector<std::string> &argv) {
   argparse::ArgumentParser program("palpatine");
@@ -18,14 +18,14 @@ argparse::ArgumentParser setup_parser(const std::vector<std::string> &argv) {
           "https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css"))
       .help("The stylesheet file link");
   program.add_argument("-c", "--config").help("The config JSON file");
-    if (!(std::count(argv.begin(), argv.end(), "-c") or
-      std::count(argv.begin(), argv.end(), "--config"))) {
-      program.add_argument("-i", "--input")
-      .required()
-      .help("The input file / directory");
-    } else {
+  if (!(std::count(argv.begin(), argv.end(), "-c") or
+        std::count(argv.begin(), argv.end(), "--config"))) {
+    program.add_argument("-i", "--input")
+        .required()
+        .help("The input file / directory");
+  } else {
     program.add_argument("-i", "--input").help("The input file / directory");
-    }
+  }
   return program;
 }
 
@@ -61,7 +61,7 @@ int main(int argc, char const *argv[]) {
                 << std::endl;
       std::exit(1);
     }
-    
+
     if (auto fn = program.present("-i"))
       options["input"] = *fn;
 
@@ -74,7 +74,6 @@ int main(int argc, char const *argv[]) {
   Palpatine palpatine(options["output"].c_str(), options["input"].c_str(),
                       options["stylesheet"].c_str());
   palpatine.generate();
-
 
   utils_sdds::print_location(options["output"]);
 
