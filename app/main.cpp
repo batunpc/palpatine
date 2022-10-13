@@ -1,11 +1,11 @@
 #include "Palpatine.h"
 #include "Utils.h"
-#include <argparse/argparse.hpp>
-#include <iostream>
-#include <nlohmann/json.hpp>
-#include <fstream>
 #include <algorithm>
+#include <argparse/argparse.hpp>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 
 argparse::ArgumentParser setup_parser(const std::vector<std::string> &argv) {
   argparse::ArgumentParser program("palpatine");
@@ -18,14 +18,16 @@ argparse::ArgumentParser setup_parser(const std::vector<std::string> &argv) {
           "https://cdn.jsdelivr.net/gh/kimeiga/bahunya/dist/bahunya.min.css"))
       .help("The stylesheet file link");
   program.add_argument("-c", "--config").help("The config JSON file");
-    if (!(std::count(argv.begin(), argv.end(), "-c") or
-      std::count(argv.begin(), argv.end(), "--config"))) {
-      program.add_argument("-i", "--input")
-      .required()
-      .help("The input file / directory");
-    } else {
+
+  if (!(std::count(argv.begin(), argv.end(), "-c") or
+        std::count(argv.begin(), argv.end(), "--config"))) {
+    program.add_argument("-i", "--input")
+        .required()
+        .help("The input file / directory");
+  } else {
     program.add_argument("-i", "--input").help("The input file / directory");
-    }
+  }
+
   return program;
 }
 
@@ -48,25 +50,25 @@ int main(int argc, char const *argv[]) {
   options["stylesheet"] = program.get("-s");
 
   if (auto p_value = program.present("-c")) {
-    std::ifstream stream(*p_value);
-    if (stream.fail()) {
+    std::ifstream json_stream(*p_value);
+    if (json_stream.fail()) {
       std::cerr << "Configuration file not found at: " << *p_value << std::endl;
       std::exit(1);
     }
     nlohmann::json config_json;
-    stream >> config_json;
+    json_stream >> config_json;
 
     if (config_json.find("input") == config_json.end()) {
       std::cerr << "Input file / directory not specified in config file"
                 << std::endl;
       std::exit(1);
     }
-    
-    if (auto fn = program.present("-i"))
-      options["input"] = *fn;
 
-    for (auto &el : config_json.items())
-      options[el.key()] = el.value();
+    if (auto input_file_optional = program.present("-i"))
+      options["input"] = *input_file_optional;
+
+    for (auto &entry : config_json.items())
+      options[entry.key()] = entry.value();
   } else {
     options["input"] = program.get("-i");
   }
@@ -74,7 +76,6 @@ int main(int argc, char const *argv[]) {
   Palpatine palpatine(options["output"].c_str(), options["input"].c_str(),
                       options["stylesheet"].c_str());
   palpatine.generate();
-
 
   utils_sdds::print_location(options["output"]);
 
