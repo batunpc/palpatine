@@ -1,5 +1,6 @@
 #include "Palpatine.h"
 #include "File.h"
+#include "FileHandler.h"
 #include "htmlplus.h"
 #include <algorithm>
 #include <filesystem>
@@ -18,9 +19,9 @@ Palpatine::Palpatine(const char *output, const char *input,
   // paths to the input and output directories
   this->output = (fs::path(output) / "dist").string();
   this->input = input;
-  this->stylesheet = std::vector{string("")};
+  this->stylesheets = std::vector{string("")};
   if (stylesheet != NULL)
-    this->stylesheet.push_back(stylesheet);
+    this->stylesheets.push_back(stylesheet);
   // remove the output directory if it exists
   fs::remove_all(this->output);
   // create the output directory if it doesn't exist
@@ -34,22 +35,22 @@ void Palpatine::process_path(string input, string output, string name) {
     // Store directories and files in current folder
     std::vector<string> directories, files;
     for (auto entry : fs::directory_iterator(input)) {
-      fs::path in_path = fs::path(entry);
+      fs::path input_path = fs::path(entry);
       if (entry.is_directory()) {
-        auto out_path = fs::path(output) / in_path.filename();
+        auto output_path = fs::path(output) / input_path.filename();
         // Create the directory
-        fs::create_directory(out_path);
+        fs::create_directory(output_path);
         // Create the index file for the directory
-        process_path(in_path.string(), out_path.string(), "index.html");
+        process_path(input_path.string(), output_path.string(), "index.html");
 
-        directories.push_back(in_path.filename().string());
-      } else if (entry.is_regular_file() && (in_path.extension() == ".txt" ||
-                                             in_path.extension() == ".md")) {
+        directories.push_back(input_path.filename().string());
+      } else if (entry.is_regular_file() && (input_path.extension() == ".txt" ||
+                                             input_path.extension() == ".md")) {
         // Create the page file
-        process_path(in_path.string(), output,
-                     in_path.stem().string() + ".html");
+        process_path(input_path.string(), output,
+                     input_path.stem().string() + ".html");
 
-        files.push_back(in_path.stem().string());
+        files.push_back(input_path.stem().string());
       }
       string title = fs::relative(input, this->input).string();
       if (title == ".")
@@ -57,89 +58,23 @@ void Palpatine::process_path(string input, string output, string name) {
       generate_index_file((fs::path(output) / name).string(), title,
                           directories, files);
     }
-  } else if (fs::path(input).extension() == ".txt") {
-    string title = fs::path(input).stem().string();
-    string file_str = file_sdds::read_file(input);
-
-    std::vector<string> paragraphs;
-    auto two_newline = file_str.find("\n\n\n");
-    std::size_t last_blank_line = 0;
-
-    // Remove the first line if it's a title, retrieve the title
-    if (two_newline != string::npos) {
-      title = file_str.substr(0, two_newline);
-      last_blank_line = two_newline + 3;
-    }
-    // Extract the data into paragraphs
-    while (last_blank_line < file_str.size() &&
-           last_blank_line != string::npos) {
-      std::size_t next_blank_line = file_str.find("\n\n", last_blank_line);
-      if (next_blank_line == string::npos)
-        break;
-      paragraphs.push_back(
-          file_str.substr(last_blank_line, next_blank_line - last_blank_line));
-      last_blank_line = next_blank_line + 2;
-    }
-    paragraphs.push_back(file_str.substr(last_blank_line));
-    generate_page_file((fs::path(output) / name).string(), title, paragraphs);
-  } else if (fs::path(input).extension() == ".md") {
-    string title = fs::path(input).stem().string();
-    string file_str = file_sdds::read_file(input);
-
-    std::vector<string> paragraphs;
-    std::size_t last_blank_line = 0;
-
-    // Extract the data into paragraphs
-    while (last_blank_line < file_str.size() &&
-           last_blank_line != string::npos) {
-      std::size_t next_blank_line = file_str.find("\n\n", last_blank_line);
-      if (next_blank_line == string::npos)
-        break;
-
-      paragraphs.push_back(
-          file_str.substr(last_blank_line, next_blank_line - last_blank_line));
-      last_blank_line = next_blank_line + 2;
-    }
-
-    paragraphs.push_back(file_str.substr(last_blank_line));
-
-    std::regex link(R"(\[([^\]]*)\]\(([^\)]*)\))");
-    std::regex image(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
-    std::regex hr(R"(---)");
-    std::regex code(R"((\s)`((?:[^`\\]|\\.)*)`)");
-
-    /* for images */
-    for (auto &paragraph : paragraphs) {
-      std::smatch match;
-      while (std::regex_search(paragraph, match, image)) {
-        string replacement = R"(<img src=")" + match[2].str() + R"(" alt=")" +
-                             match[1].str() + R"(">)";
-        paragraph.replace(match.position(), match.length(), replacement);
-      }
-    }
-    for (auto &paragraph : paragraphs) {
-      paragraph = std::regex_replace(paragraph, link, "<a href=\"$2\">$1</a>");
-      paragraph = std::regex_replace(paragraph, code, "$1<code>$2</code>");
-      paragraph = std::regex_replace(paragraph, hr, "\n<hr>\n");
-    }
-    generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+  } else if (fs::path(input).extension() == ".txt" ||
+             fs::path(input).extension() == ".md") {
+    Handler *handler = fs::path(input).extension() == ".txt"
+                           ? new TextHandler(stylesheets)
+                           : new MarkdownHandler(stylesheets);
+    handler->process(input, output, name);
+    delete handler;
   } else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
     std::terminate();
   }
 }
 
-void Palpatine::generate_page_file(string output, string title,
-                                   vector<string> paragraphs) {
-  ofstream html(output);
-  HMTLPLUS::header(html, title, this->stylesheet);
-  HMTLPLUS::page_body(html, paragraphs);
-}
-
 void Palpatine::generate_index_file(string output, string title,
                                     vector<string> directories,
                                     vector<string> files) {
   ofstream html(output);
-  HMTLPLUS::header(html, title, this->stylesheet);
+  HMTLPLUS::header(html, title, this->stylesheets);
   HMTLPLUS::index_body(html, title, directories, files);
 }
