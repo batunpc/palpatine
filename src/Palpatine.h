@@ -18,11 +18,5 @@ private:
   std::vector<string> stylesheets;
   void process_path(string, string, string);
 
-  void process_text_file(string, string, string, const string &);
-  void process_md_file(string, string, string, const string &);
-
-  std::vector<string> parse_paragraphs(const string &, std::size_t, string);
-
-  void generate_page_file(string, string, vector<string>);
   void generate_index_file(string, string, vector<string>, vector<string>);
 };

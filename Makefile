@@ -4,8 +4,8 @@ dependency:
 prepare:
 	@echo ">>> Building palpatine ...";
 	@if [ -d ./build ]; then rm -rf ./build; fi
-	mkdir build; 
-	cd build; \
+	@mkdir build; 
+	@cd build; \
 	cmake -S .. -B .; \
 	make; \
 	
