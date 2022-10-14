@@ -60,75 +60,11 @@ void Palpatine::process_path(string input, string output, string name) {
   } else if (fs::path(input).extension() == ".txt") {
     string title = fs::path(input).stem().string();
     string file_content = file_sdds::read_file(input);
-
-    std::vector<string> paragraphs;
-    auto two_newline_position = file_content.find("\n\n\n");
-    std::size_t last_blank_line_position = 0;
-
-    // Remove the first line if it's a title, retrieve the title
-    if (two_newline_position != string::npos) {
-      title = file_content.substr(0, two_newline_position);
-      last_blank_line_position = two_newline_position + 3;
-    }
-    // Extract the data into paragraphs
-    while (last_blank_line_position < file_content.size() &&
-           last_blank_line_position != string::npos) {
-      std::size_t next_blank_line_position =
-          file_content.find("\n\n", last_blank_line_position);
-      if (next_blank_line_position == string::npos)
-        break;
-      paragraphs.push_back(file_content.substr(last_blank_line_position,
-                                               next_blank_line_position -
-                                                   last_blank_line_position));
-      last_blank_line_position = next_blank_line_position + 2;
-    }
-    paragraphs.push_back(file_content.substr(last_blank_line_position));
-    generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+    process_text_file(output, name, title, file_content);
   } else if (fs::path(input).extension() == ".md") {
     string title = fs::path(input).stem().string();
     string file_content = file_sdds::read_file(input);
-
-    std::vector<string> paragraphs;
-    std::size_t last_blank_line_position = 0;
-
-    // Extract the data into paragraphs
-    while (last_blank_line_position < file_content.size() &&
-           last_blank_line_position != string::npos) {
-      std::size_t next_blank_line_position =
-          file_content.find("\n\n", last_blank_line_position);
-      if (next_blank_line_position == string::npos)
-        break;
-
-      paragraphs.push_back(file_content.substr(last_blank_line_position,
-                                               next_blank_line_position -
-                                                   last_blank_line_position));
-      last_blank_line_position = next_blank_line_position + 2;
-    }
-
-    paragraphs.push_back(file_content.substr(last_blank_line_position));
-
-    std::regex link_regex(R"(\[([^\]]*)\]\(([^\)]*)\))");
-    std::regex image_regex(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
-    std::regex hr_regex(R"(---)");
-    std::regex inline_code_regex(R"((\s)`((?:[^`\\]|\\.)*)`)");
-
-    /* for images */
-    for (auto &paragraph : paragraphs) {
-      std::smatch match;
-      while (std::regex_search(paragraph, match, image_regex)) {
-        string replacement = R"(<img src=")" + match[2].str() + R"(" alt=")" +
-                             match[1].str() + R"(">)";
-        paragraph.replace(match.position(), match.length(), replacement);
-      }
-    }
-    for (auto &paragraph : paragraphs) {
-      paragraph =
-          std::regex_replace(paragraph, link_regex, "<a href=\"$2\">$1</a>");
-      paragraph =
-          std::regex_replace(paragraph, inline_code_regex, "$1<code>$2</code>");
-      paragraph = std::regex_replace(paragraph, hr_regex, "\n<hr>\n");
-    }
-    generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+    process_md_file(output, name, title, file_content);
   } else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
     std::terminate();
@@ -148,4 +84,74 @@ void Palpatine::generate_index_file(string output, string title,
   ofstream html(output);
   HMTLPLUS::header(html, title, this->stylesheets);
   HMTLPLUS::index_body(html, title, directories, files);
+}
+
+void Palpatine::process_md_file(string output, string name, string title,
+                                const string &file_content) {
+  std::vector<string> paragraphs = parse_paragraphs(file_content, 0);
+
+  static const std::regex link_regex(R"(\[([^\]]*)\]\(([^\)]*)\))");
+  static const std::regex image_regex(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
+  static const std::regex hr_regex(R"(---)");
+  static const std::regex inline_code_regex(R"((\s)`((?:[^`\\]|\\.)*)`)");
+
+  /* for images */
+  for (auto &paragraph : paragraphs) {
+    std::smatch match;
+    while (std::regex_search(paragraph, match, image_regex)) {
+      string replacement = R"(<img src=")" + match[2].str() + R"(" alt=")" +
+                           match[1].str() + R"(">)";
+      paragraph.replace(match.position(), match.length(), replacement);
+    }
+  }
+
+  for (auto &paragraph : paragraphs) {
+    paragraph =
+        std::regex_replace(paragraph, link_regex, "<a href=\"$2\">$1</a>");
+    paragraph =
+        std::regex_replace(paragraph, inline_code_regex, "$1<code>$2</code>");
+    paragraph = std::regex_replace(paragraph, hr_regex, "\n<hr>\n");
+  }
+
+  generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+}
+
+void Palpatine::process_text_file(string output, string name, string title,
+                                  const string &file_content) {
+  auto two_newline_position = file_content.find("\n\n\n");
+  std::size_t last_blank_line_position = 0;
+
+  // Remove the first line if it's a title, retrieve the title
+  if (two_newline_position != string::npos) {
+    title = file_content.substr(0, two_newline_position);
+    last_blank_line_position = two_newline_position + 3;
+  }
+
+  std::vector<string> paragraphs =
+      parse_paragraphs(file_content, last_blank_line_position);
+
+  generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+}
+
+std::vector<string> Palpatine::parse_paragraphs(const string &file_content,
+                                                std::size_t start,
+                                                string separator = "\n\n") {
+  std::vector<string> paragraphs;
+  std::size_t last_blank_line_position = start;
+
+  // Extract the data into paragraphs
+  while (last_blank_line_position < file_content.size() &&
+         last_blank_line_position != string::npos) {
+    std::size_t next_blank_line_position =
+        file_content.find(separator, last_blank_line_position);
+    if (next_blank_line_position == string::npos)
+      break;
+
+    paragraphs.push_back(file_content.substr(last_blank_line_position,
+                                             next_blank_line_position -
+                                                 last_blank_line_position));
+    last_blank_line_position = next_blank_line_position + separator.size();
+  }
+
+  paragraphs.push_back(file_content.substr(last_blank_line_position));
 }
