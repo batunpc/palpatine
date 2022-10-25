@@ -1,7 +1,29 @@
 #!/bin/bash 
 
 if [ -d build ]; then
-    ./build/app/palpatine "$@" # Pass all arguments to the executable
+    if [ -f build/app/palpatine ]; then
+        # run the executable
+        ./build/app/palpatine "$@"
+    else
+        echo "Executable not found" \
+            "Building again..."
+        cd build && cmake -S .. -B . && cmake --build .;
+    fi
 else
-    echo "Build directory not found. Run ' make prepare ' first."
+    echo ">>> Building palpatine..."
+    echo ">>> This will build essential libraries and palpatine."
+    read -r -p "Continue? [y/n] " answer
+
+    if [[ "$answer" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        
+        if [ -d build ]; then
+            rm -rf build
+        fi
+        
+        mkdir build && cd build && cmake -S .. -B . && cmake --build .;
+        ./app/palpatine "$@" 
+
+    else
+        echo ">>> Aborting..."
+    fi
 fi
