@@ -27,89 +27,45 @@ Test if you have the required tools with;
 
 
 
-### How To Use
-To clone and run this application, you'll need [Git](https://git-scm.com), C++ compiler with `std=c++17` supported and [CMake](https://cmake.org/) to build the project. Normally you would have to specify particular cmake commands to build the project but I have automated that process in the `Makefile` so all you have to do is run `make prepare` in the root directory of the project. This will build the project and create an executable file in the `build/app` directory. You can examine the the Makefile to see what it does.
+### Usage
+<!-- To clone and run this application, you'll need [Git](https://git-scm.com), C++ compiler with `std=c++17` supported and [CMake](https://cmake.org/) to build the project. Normally you would have to specify particular cmake commands to build the project but I have automated that process in the `Makefile` so all you have to do is run `make prepare` in the root directory of the project. This will build the project and create an executable file in the `build/app` directory. You can examine the the Makefile to see what it does. -->
+Clone the repository and run either `./palpatine` or `make prepare` in the root directory of the project. 
+This automates the traditional [cmake build process](https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem) (i.e. `mkdir build && cd build && cmake .. && make`) and creates an executable file in the `build/app` directory. 
+
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/batunpc/palpatine
+ git clone https://github.com/batunpc/palpatine && cd palpatine
 
-# Go into the repository
-$ cd palpatine
+make prepare 
 
-# Build project w/ cmake and install dependencies 
-$ make prepare
-
-# Run the script
-$ ./palpatine -i <input> -o <output> -s <stylesheet>
+./palpatine -i <input> -c <config>  #  -i OR -c flags are mandatory
 ```
->**Note:** If you get permission denied error, you can run `chmod +x palpatine` to make the script executable.
+
+> **Note**: If you get permission denied error when running `./palpatine` you can run `chmod +x palpatine` to give the executable permission to run. See more about chmod [here](https://www.howtogeek.com/437958/how-to-use-the-chmod-command-on-linux/).
+
+
 ### Flags
 | Flag | Description | Required / Optional |
 | --- | --- | --- |
-| `-i` | Specify raw data directory or file e.g. use `data` directory in the codebase | Required |
+| `-i` | Specify raw data directory or file e.g. use `data` directory in the codebase | Required <br> <if -c not specified> |
+| `-c` | Specify config file e.g. use `config.json` in the codebase | Required<br> <if -i not specified> |
 | `-o` | Specify particular directory that you want to generate static sites to. | Optional |
-| `-s` | If you please, you can add custom stylesheets by specifying the css files.<br> By default it uses [bahunya](https://hakanalpay.com/bahunya/)| Optional|
-| `-h` | This will display all the available options | Optional |
+| `-s` | If you please, you can add custom stylesheets by specifying the css files.<br> By default it uses [bahunya](https://hakanalpay.com/bahunya/). Make sure the URL tail has extension `.css`| Optional|
+| `-h` | This will display all the available flags that palpatine handles | Optional |
 
 
 ### Dependencies
 CMake is used to confgure the following dependencies and they will be installed in the `external` directory:
 - [p-ranav/argparse](https://github.com/p-ranav/argparse) - A single-file header-only C++11 library for parsing command line arguments.
 - [ikalnytskyi/termcolor](https://github.com/ikalnytskyi/termcolor) - A header-only C++ library for printing colored messages to a terminal.
+- [nlohmann/json](https://github.com/nlohmann/json) - JSON for Modern C++. Used to parse the config file and generate the static site.
 
 ## Features
  
-- [x]  Generate a static site from a directory of text files
-- [x]  Generate a stylesheet file for the static site
+- [x]  Generate a static site from a directory of text/markdown files
 - [x]  Option to change the output directory
+- [x]  Option to specify a config file
 - [x]  Option to include a custom stylesheet link
-- [x]  Generate a list of all pages in a directory, with links to each page
+- [x]  Generate a list of all pages in a directory, with links to each page See [inital page](https://emperor-palpatine.netlify.app/)
 - [x]  Parse page title from the first line of the file if given
-- [x]  Supports the 'link' feature of markdown and text files only
-
-### Configured with CMake
-
-The config folder in the repository is responsible to contain `config.hpp.in` file. The files ending with `.in` means that CMake will make particular changes to the file before it is used. In this case, the `config.hpp.in` file will be used to generate `config.hpp` file in the build directory. The `config.hpp` file will be used to configure the project in the manner of version control and setting. The `config.hpp.in` file is configured with the following variables:
-
-```cpp
-static constexpr std::string_view project_name = "@PROJECT_NAME@";
-static constexpr std::string_view project_author = "@PROJECT_AUTHOR@";
-static constexpr std::string_view project_version = "@PROJECT_VERSION@";
-static constexpr std::string_view project_description = "@PROJECT_DESCRIPTION@";
-```
-
-These variables will be replaced with the actual values in the root `CMakeLists.txt` file.
-
-### Add Git Submodules with CMake
-
-Primarily if we are using external libraries in any project, we can add them as git submodules. This is done by running the following command in the root directory of the project:
-
-```bash
-git submodule add <git-repo-url> <path-to-submodule>
-```
-
-
-There are many ways to use external libraries in CMake. One of the ways is to use git submodules. I have used git submodules to add the dependencies. According to my observations on other large C++ projects, they always have cmake folder in their root directory. This folder usually contains an function that handles the git submodules.
-
-```cmake
-#AddGitSubmodule.cmake
-function(add_git_submodule dir)
-  find_package(Git REQUIRED) # Ensure git is installed
-
-  if(NOT EXISTS ${dir}/CMakeLists.txt)
-    message(STATUS "🚨 Adding git submodule => ${dir}")
-    execute_process(COMMAND ${GIT_EXECUTABLE}
-      submodule update --init --recursive -- ${dir}
-      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}) # Absolute path to project root
-  endif()
-
-  add_subdirectory(${dir})
-endfunction(add_git_submodule)
-```
-
-That said, we can use this function to add git submodules in our project. In the root `CMakeLists.txt` file, we can add the following lines:
-
-```cmake
-add_git_submodule(path/to/submodule)
-```
+- [x]  Full markdown support
