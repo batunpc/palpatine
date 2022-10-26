@@ -1,6 +1,7 @@
 #include "Palpatine.h"
 #include "File.h"
 #include "FileHandler.h"
+#include "Utils.h"
 #include "htmlplus.h"
 #include <algorithm>
 #include <filesystem>
@@ -66,7 +67,7 @@ void Palpatine::process_path(string input, string output, string name) {
     handler->process(input, output, name);
     delete handler;
   } else {
-    std::cout << "Error: " << input << " is not a valid file type" << std::endl;
+    utils_sdds::print_error("Error: " + input + " is not a valid file type");
     std::terminate();
   }
 }

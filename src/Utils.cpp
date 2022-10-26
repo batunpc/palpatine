@@ -18,9 +18,9 @@ void print_banner() {
   std::cout << std::endl;
 }
 
-void print_error(const std::runtime_error &err) {
-  std::cerr << termcolor::red << termcolor::bold << err.what()
-            << termcolor::reset << std::endl;
+void print_error(const std::string &err) {
+  std::cerr << termcolor::red << termcolor::bold << err << termcolor::reset
+            << std::endl;
 }
 
 void print_location(const std::string &location) {
