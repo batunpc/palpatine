@@ -84,7 +84,14 @@
     "iterator": "cpp",
     "utility": "cpp",
     "regex": "cpp",
-    "__availability": "cpp"
+    "__availability": "cpp",
+    "forward_list": "cpp",
+    "random": "cpp",
+    "ranges": "cpp",
+    "span": "cpp",
+    "thread": "cpp",
+    "unordered_set": "cpp",
+    "valarray": "cpp"
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "liveServer.settings.port": 5501

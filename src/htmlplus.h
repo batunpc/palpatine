@@ -56,6 +56,12 @@ void page_body(std::ostream &html_file, std::vector<string> paragraphs) {
 </html>)";
 }
 
+void footer(std::ostream &html_file) {
+  html_file << R"(
+  </body>
+</html>)";
+}
+
 void index_body(std::ostream &html_file, std::string title,
                 std::vector<string> directories, std::vector<string> files) {
   if (title == "Homepage") {

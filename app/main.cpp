@@ -40,7 +40,7 @@ int main(int argc, char const *argv[]) {
   try {
     program.parse_args(argc, argv);
   } catch (const std::runtime_error &err) {
-    utils_sdds::print_error(err);
+    utils_sdds::print_error(err.what());
     std::cerr << program;
     std::exit(1);
   }

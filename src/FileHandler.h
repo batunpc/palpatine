@@ -1,6 +1,7 @@
 #pragma once
 #include "File.h"
 #include "htmlplus.h"
+#include "maddy/parser.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -28,7 +29,7 @@ protected:
     HMTLPLUS::page_body(html, paragraphs);
   }
 
-private:
+protected:
   const vector<string> &stylesheets;
 };
 
@@ -92,32 +93,17 @@ public:
 
   virtual void process(string input, string output, string name) {
     string title = fs::path(input).stem().string();
-    string file_content = file_sdds::read_file(input);
-    std::vector<string> paragraphs = parse_paragraphs(file_content, 0);
+    std::ifstream file_data(input);
+    std::stringstream md_str;
+    md_str << file_data.rdbuf();
+    file_data.close();
 
-    static const std::regex link_regex(R"(\[([^\]]*)\]\(([^\)]*)\))");
-    static const std::regex image_regex(R"(\!\[([^\]]*)\]\(([^\)]*)\))");
-    static const std::regex hr_regex(R"(---)");
-    static const std::regex inline_code_regex(R"((\s)`((?:[^`\\]|\\.)*)`)");
+    std::shared_ptr<maddy::Parser> parser = std::make_shared<maddy::Parser>();
+    std::string html_output = parser->Parse(md_str);
 
-    /* for images */
-    for (auto &paragraph : paragraphs) {
-      std::smatch match;
-      while (std::regex_search(paragraph, match, image_regex)) {
-        string replacement = R"(<img src=")" + match[2].str() + R"(" alt=")" +
-                             match[1].str() + R"(">)";
-        paragraph.replace(match.position(), match.length(), replacement);
-      }
-    }
-
-    for (auto &paragraph : paragraphs) {
-      paragraph =
-          std::regex_replace(paragraph, link_regex, "<a href=\"$2\">$1</a>");
-      paragraph =
-          std::regex_replace(paragraph, inline_code_regex, "$1<code>$2</code>");
-      paragraph = std::regex_replace(paragraph, hr_regex, "\n<hr>\n");
-    }
-
-    generate_page_file((fs::path(output) / name).string(), title, paragraphs);
+    ofstream html(fs::path(output) / name);
+    HMTLPLUS::header(html, title, stylesheets);
+    html << html_output << std::endl;
+    HMTLPLUS::footer(html);
   }
 };
