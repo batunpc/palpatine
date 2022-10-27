@@ -1,12 +1,14 @@
 
 <h1 align="center">
   <br>
-<img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="200">
+<img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="180">
   <br>
   palpatine
 </h1>
 
-<h4 align="center">A minimal static site generator (SSG) built with C++ <br><br>
+<h4 align="center">
+
+A minimal static site generator (SSG) built with C++> <br><br>
   <a href="https://emperor-palpatine.netlify.app/">Demo</a> .
   <a href="https://dev.to/batunpc/palpatine-release10-350g">Blog</a>
 
@@ -28,7 +30,6 @@ Test if you have the required tools with;
 
 
 ### Usage
-<!-- To clone and run this application, you'll need [Git](https://git-scm.com), C++ compiler with `std=c++17` supported and [CMake](https://cmake.org/) to build the project. Normally you would have to specify particular cmake commands to build the project but I have automated that process in the `Makefile` so all you have to do is run `make prepare` in the root directory of the project. This will build the project and create an executable file in the `build/app` directory. You can examine the the Makefile to see what it does. -->
 Clone the repository and run either `./palpatine` or `make prepare` in the root directory of the project. 
 This automates the traditional [cmake build process](https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem) (i.e. `mkdir build && cd build && cmake .. && make`) and creates an executable file in the `build/app` directory. 
 
@@ -45,17 +46,17 @@ make prepare
 
 
 ### Flags
-| Flag | Description | Required / Optional |
-| --- | --- | --- |
-| `-i` | Specify raw data directory or file e.g. use `data` directory in the codebase | Required <br> <if -c not specified> |
-| `-c` | Specify config file e.g. use `config.json` in the codebase | Required<br> <if -i not specified> |
-| `-o` | Specify particular directory that you want to generate static sites to. | Optional |
-| `-s` | If you please, you can add custom stylesheets by specifying the css files.<br> By default it uses [bahunya](https://hakanalpay.com/bahunya/). Make sure the URL tail has extension `.css`| Optional|
-| `-h` | This will display all the available flags that palpatine handles | Optional |
+| Flag | Description                                                                                                                                                                               | Required / Optional                 |
+|------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| `-i` | Specify raw data directory or file e.g. use `data` directory in the codebase                                                                                                              | Required <br> <if -c not specified> |
+| `-c` | Specify config file e.g. use `config.json` in the codebase                                                                                                                                | Required<br> <if -i not specified>  |
+| `-o` | Specify particular directory that you want to generate static sites to.                                                                                                                   | Optional                            |
+| `-s` | If you please, you can add custom stylesheets by specifying the css files.<br> By default it uses [bahunya](https://hakanalpay.com/bahunya/). Make sure the URL tail has extension `.css` | Optional                            |
+| `-h` | This will display all the available flags that palpatine handles                                                                                                                          | Optional                            |
 
 
 ### Dependencies
-CMake is used to confgure the following dependencies and they will be installed in the `external` directory:
+CMake is used to configure the following dependencies, and they will be installed in the `external` directory:
 - [p-ranav/argparse](https://github.com/p-ranav/argparse) - A single-file header-only C++11 library for parsing command line arguments.
 - [ikalnytskyi/termcolor](https://github.com/ikalnytskyi/termcolor) - A header-only C++ library for printing colored messages to a terminal.
 - [nlohmann/json](https://github.com/nlohmann/json) - JSON for Modern C++. Used to parse the config file and generate the static site.
@@ -66,6 +67,6 @@ CMake is used to confgure the following dependencies and they will be installed 
 - [x]  Option to change the output directory
 - [x]  Option to specify a config file
 - [x]  Option to include a custom stylesheet link
-- [x]  Generate a list of all pages in a directory, with links to each page See [inital page](https://emperor-palpatine.netlify.app/)
+- [x]  Generate a list of all pages in a directory, with links to each page See [initial page](https://emperor-palpatine.netlify.app/)
 - [x]  Parse page title from the first line of the file if given
 - [x]  Full markdown support
