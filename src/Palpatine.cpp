@@ -31,11 +31,11 @@ Palpatine::Palpatine(const char *output, const char *input,
 
 void Palpatine::generate() { process_path(input, output, "index.html"); }
 
-void Palpatine::process_path(string input, string output, string name) {
+void Palpatine::process_path(const string& input, const string& output, const string& name) {
   if (fs::is_directory(input)) {
     // Store directories and files in current folder
     std::vector<string> directories, files;
-    for (auto entry : fs::directory_iterator(input)) {
+    for (const auto& entry : fs::directory_iterator(input)) {
       fs::path input_path = fs::path(entry);
       if (entry.is_directory()) {
         auto output_path = fs::path(output) / input_path.filename();
@@ -72,9 +72,9 @@ void Palpatine::process_path(string input, string output, string name) {
   }
 }
 
-void Palpatine::generate_index_file(string output, string title,
-                                    vector<string> directories,
-                                    vector<string> files) {
+void Palpatine::generate_index_file(string output, const string& title,
+                                    const vector<string>& directories,
+                                    const vector<string>& files) {
   ofstream html(output);
   HMTLPLUS::header(html, title, this->stylesheets);
   HMTLPLUS::index_body(html, title, directories, files);

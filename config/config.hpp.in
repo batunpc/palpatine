@@ -1,6 +1,4 @@
 #pragma once
-#include <cstdint>
-#include <stdexcept>
 #include <string_view>
 
 #define PROJECT_VERSION_MAJOR "@PROJECT_VERSION_MAJOR@"

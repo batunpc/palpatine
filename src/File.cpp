@@ -1,13 +1,10 @@
 #include "File.h"
-#include "config.hpp"
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <termcolor/termcolor.hpp>
 #include <vector>
 namespace file_sdds {
 
-std::string read_file(std::string file_name) {
+std::string read_file(const std::string& file_name) {
   std::string file_str;
   std::ifstream file_data(file_name);
   std::stringstream str_stream;

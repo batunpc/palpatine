@@ -8,6 +8,7 @@
 #include <iostream>
 #include <regex>
 #include <sstream>
+#include <utility>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -15,18 +16,18 @@ using std::vector, std::ifstream, std::ofstream;
 
 class Handler {
 public:
-  Handler(const vector<string> &stylesheets) : stylesheets(stylesheets) {}
+  explicit Handler(const vector<string> &stylesheets) : stylesheets(stylesheets) {}
 
-  virtual ~Handler() {}
+  virtual ~Handler() = default;
 
   virtual void process(string input, string output, string name) = 0;
 
 protected:
-  void generate_page_file(string output, string title,
+  void generate_page_file(const string& output, string title,
                           vector<string> paragraphs) {
     ofstream html(output);
-    HMTLPLUS::header(html, title, stylesheets);
-    HMTLPLUS::page_body(html, paragraphs);
+    HMTLPLUS::header(html, std::move(title), stylesheets);
+    HMTLPLUS::page_body(html, std::move(paragraphs));
   }
 
 protected:
@@ -36,7 +37,7 @@ protected:
 class TextHandler : public Handler {
 
 public:
-  TextHandler(const vector<string> &stylesheets) : Handler(stylesheets) {}
+  explicit TextHandler(const vector<string> &stylesheets) : Handler(stylesheets) {}
 
   virtual ~TextHandler() {}
 
@@ -86,7 +87,7 @@ protected:
 class MarkdownHandler : public TextHandler {
 
 public:
-  MarkdownHandler(const vector<string> &stylesheets)
+  explicit MarkdownHandler(const vector<string> &stylesheets)
       : TextHandler(stylesheets) {}
 
   virtual ~MarkdownHandler() {}

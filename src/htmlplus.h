@@ -3,8 +3,8 @@
 #include <iostream>
 
 namespace HMTLPLUS {
-void header(std::ostream &html_file, std::string title,
-            std::vector<string> stylesheets) {
+void header(std::ostream &html_file, const std::string& title,
+            const std::vector<string>& stylesheets) {
   html_file << R"(
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +40,7 @@ void header(std::ostream &html_file, std::string title,
   }
 }
 
-void page_body(std::ostream &html_file, std::vector<string> paragraphs) {
+void page_body(std::ostream &html_file, const std::vector<string>& paragraphs) {
   for (auto &paragraph : paragraphs)
     // if image is found do not add <p> tag
     if (paragraph.find("<img") != std::string::npos)
@@ -62,8 +62,8 @@ void footer(std::ostream &html_file) {
 </html>)";
 }
 
-void index_body(std::ostream &html_file, std::string title,
-                std::vector<string> directories, std::vector<string> files) {
+void index_body(std::ostream &html_file, const std::string& title,
+                const std::vector<string>& directories, const std::vector<string>& files) {
   if (title == "Homepage") {
     html_file << R"(
         <h2>Directories</h2>
