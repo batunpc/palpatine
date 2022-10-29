@@ -19,10 +19,11 @@ void header(std::ostream &html_file, const std::string& title,
     <style> ul { list-style-type: none; margin: 0; padding: 0; overflow: hidden;} </style>
     )";
 
-  for (auto &stylesheet : stylesheets)
+  for (const auto &stylesheet : stylesheets) {
     html_file << R"(
     <link rel="stylesheet" href=")"
               << stylesheet << R"(">)" << std::endl;
+}
   html_file << R"(</head>)";
   html_file << R"(
 <body>
@@ -41,16 +42,18 @@ void header(std::ostream &html_file, const std::string& title,
 }
 
 void page_body(std::ostream &html_file, const std::vector<string>& paragraphs) {
-  for (auto &paragraph : paragraphs)
+  for (const auto &paragraph : paragraphs) {
     // if image is found do not add <p> tag
-    if (paragraph.find("<img") != std::string::npos)
+    if (paragraph.find("<img") != std::string::npos) {
       html_file << R"(
         <div>)" << paragraph
                 << R"(</div>)";
-    else
+    } else {
       html_file << R"(
         <p>)" << paragraph
                 << R"(</p>)" << std::endl;
+    }
+}
   html_file << R"(
   </body>
 </html>)";
@@ -68,18 +71,20 @@ void index_body(std::ostream &html_file, const std::string& title,
     html_file << R"(
         <h2>Directories</h2>
         <ul>)";
-    for (auto &d : directories)
-      html_file << R"(<li><a href=")" << d
-                << R"("/><i class="fas fa-folder"></i> )" << d
+    for (const auto &dir : directories) {
+      html_file << R"(<li><a href=")" << dir
+                << R"("/><i class="fas fa-folder"></i> )" << dir
                 << R"(</a></li>)";
+}
   } else {
     html_file << R"(
         <h2>Files</h2>
         <ul>)";
-    for (auto &f : files)
-      html_file << R"(<li><a href=")" << f
-                << R"(.html"><i class="fa-regular fa-file-lines"></i> )" << f
+    for (const auto &file : files) {
+      html_file << R"(<li><a href=")" << file
+                << R"(.html"><i class="fa-regular fa-file-lines"></i> )" << file
                 << R"(</a></li>)";
+}
   }
   html_file << R"(
         </ul>

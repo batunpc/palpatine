@@ -11,12 +11,13 @@ public:
   Palpatine();
   Palpatine(const char *, const char *, const char *);
   void generate();
-  vector<string> get_stylesheet() { return stylesheets; }
+  auto get_stylesheet() -> vector<string> { return stylesheets; }
 
 private:
   string input, output;
   std::vector<string> stylesheets;
-  void process_path(const string&, const string&, const string&);
+  void process_path(const string &, const string &, const string &);
 
-  void generate_index_file(string, const string&, const vector<string>&, const vector<string>&);
+  void generate_index_file(string, const string &, const vector<string> &,
+                           const vector<string> &);
 };

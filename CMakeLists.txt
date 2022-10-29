@@ -7,14 +7,6 @@ project(palpatine
   LANGUAGES CXX
 )
 
-add_compile_options("-pedantic"
-  "-pedantic-errors"
-  "-Wall"
-  "-Wextra"
-  "-Werror"
-  "-Wno-float-equal"
-  "-Wno-padded") # CMake 2.8.12 or newer
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

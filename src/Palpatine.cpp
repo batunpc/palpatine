@@ -5,10 +5,6 @@
 #include "htmlplus.h"
 #include <algorithm>
 #include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <regex>
-#include <sstream>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -16,13 +12,15 @@ using std::vector, std::ifstream, std::ofstream;
 
 // Constructor
 Palpatine::Palpatine(const char *output, const char *input,
-                     const char *stylesheet) {
+                     const char *stylesheet)
+    : input(input) {
   // paths to the input and output directories
   this->output = (fs::path(output) / "dist").string();
-  this->input = input;
+
   this->stylesheets = std::vector{string("")};
-  if (stylesheet != NULL)
-    this->stylesheets.push_back(stylesheet);
+  if (stylesheet != nullptr) {
+    this->stylesheets.emplace_back(stylesheet);
+  }
   // remove the output directory if it exists
   fs::remove_all(this->output);
   // create the output directory if it doesn't exist
@@ -31,11 +29,12 @@ Palpatine::Palpatine(const char *output, const char *input,
 
 void Palpatine::generate() { process_path(input, output, "index.html"); }
 
-void Palpatine::process_path(const string& input, const string& output, const string& name) {
+void Palpatine::process_path(const string &input, const string &output,
+                             const string &name) {
   if (fs::is_directory(input)) {
     // Store directories and files in current folder
     std::vector<string> directories, files;
-    for (const auto& entry : fs::directory_iterator(input)) {
+    for (const auto &entry : fs::directory_iterator(input)) {
       fs::path input_path = fs::path(entry);
       if (entry.is_directory()) {
         auto output_path = fs::path(output) / input_path.filename();
@@ -53,9 +52,10 @@ void Palpatine::process_path(const string& input, const string& output, const st
 
         files.push_back(input_path.stem().string());
       }
-      string title = fs::relative(input, this->input).string();
-      if (title == ".")
+      string title = fs::relative(input_path, this->input).string();
+      if (title == ".") {
         title = "Homepage";
+      }
       generate_index_file((fs::path(output) / name).string(), title,
                           directories, files);
     }
@@ -72,9 +72,9 @@ void Palpatine::process_path(const string& input, const string& output, const st
   }
 }
 
-void Palpatine::generate_index_file(string output, const string& title,
-                                    const vector<string>& directories,
-                                    const vector<string>& files) {
+void Palpatine::generate_index_file(string output, const string &title,
+                                    const vector<string> &directories,
+                                    const vector<string> &files) {
   ofstream html(output);
   HMTLPLUS::header(html, title, this->stylesheets);
   HMTLPLUS::index_body(html, title, directories, files);
