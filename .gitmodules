@@ -7,3 +7,6 @@
 [submodule "external/json"]
 	path = external/json
 	url = https://github.com/nlohmann/json
+[submodule "cmake/modules/cmake-modules"]
+	path = cmake/modules/cmake-modules
+	url = https://github.com/rpavlik/cmake-modules
