@@ -15,8 +15,10 @@ set(PALPATINE_EXE "palpatine")
 set(CMAKE_BUILD_TYPE "Debug")
 
 # Call the addGitSubmodule function to add the library
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-include(AddGitSubmodule) # This will include cmake module files
+# set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
+
+include(AddGitSubmodule)
 
 # Dependencies
 add_git_submodule("external/parser")
