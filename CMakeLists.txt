@@ -16,7 +16,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 # Call the addGitSubmodule function to add the library
 # set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/custom-modules ${CMAKE_MODULE_PATH})
 
 include(AddGitSubmodule)
 
