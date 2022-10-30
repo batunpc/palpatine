@@ -1,0 +1,10 @@
+#pragma once
+#include <string_view>
+
+#define PROJECT_VERSION_MAJOR @PROJECT_VERSION_MAJOR @
+#define PROJECT_VERSION_MINOR @PROJECT_VERSION_MINOR @
+#define PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH @
+
+static constexpr std::string_view project_name        = " @PROJECT_NAME@ ";
+static constexpr std::string_view project_version     = "@PROJECT_VERSION@";
+static constexpr std::string_view project_description = "@PROJECT_DESCRIPTION@";
