@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 project(palpatine
-  VERSION 0.5
+  VERSION 0.5.7
   DESCRIPTION "CLI static site generator."
   HOMEPAGE_URL "https://github.com/batunpc/palpatine"
   LANGUAGES CXX
