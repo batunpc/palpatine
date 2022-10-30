@@ -1,6 +1,5 @@
 add_library(${PALPATINE_LIB} STATIC
   "Palpatine.cpp"
-  "File.cpp"
   "Utils.cpp")
 
 target_include_directories(${PALPATINE_LIB} PUBLIC

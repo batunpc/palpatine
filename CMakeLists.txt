@@ -18,7 +18,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 # set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
 
-include(custom-modules/AddGitSubmodule)
+include(AddGitSubmodule)
 
 # Dependencies
 add_git_submodule("external/parser")

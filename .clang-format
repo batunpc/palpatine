@@ -3,8 +3,8 @@ Language: Cpp
 BasedOnStyle: LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: AlwaysBreak
-AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: true
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: None
 AlwaysBreakTemplateDeclarations: Yes
 IndentPPDirectives: AfterHash
 IndentWidth: 2

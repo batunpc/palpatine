@@ -1,12 +1,14 @@
 
 <h1 align="center">
   <br>
-<img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="200">
+<img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="180">
   <br>
   palpatine
 </h1>
 
-<h4 align="center">A minimal static site generator (SSG) built with C++ <br><br>
+<h4 align="center">
+
+A minimal static site generator (SSG) built with C++> <br><br>
   <a href="https://emperor-palpatine.netlify.app/">Demo</a> .
   <a href="https://dev.to/batunpc/palpatine-release10-350g">Blog</a>
 
@@ -54,7 +56,7 @@ make prepare
 
 
 ### Dependencies
-CMake is used to confgure the following dependencies, and they will be installed in the `external` directory:
+CMake is used to configure the following dependencies, and they will be installed in the `external` directory:
 - [p-ranav/argparse](https://github.com/p-ranav/argparse) - A single-file header-only C++11 library for parsing command line arguments.
 - [ikalnytskyi/termcolor](https://github.com/ikalnytskyi/termcolor) - A header-only C++ library for printing colored messages to a terminal.
 - [nlohmann/json](https://github.com/nlohmann/json) - JSON for Modern C++. Used to parse the config file and generate the static site.

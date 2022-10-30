@@ -1,5 +1,4 @@
 #include "Palpatine.h"
-#include "File.h"
 #include "FileHandler.h"
 #include "htmlplus.h"
 #include <algorithm>
@@ -25,8 +24,6 @@ Palpatine::Palpatine(
   // create the output directory if it doesn't exist
   fs::create_directory(this->m_output);
 }
-
-
 
 void Palpatine::generate() { process_path(m_input, m_output, "index.html"); }
 

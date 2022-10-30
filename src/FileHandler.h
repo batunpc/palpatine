@@ -1,5 +1,4 @@
 #pragma once
-#include "File.h"
 #include "htmlplus.h"
 #include "maddy/parser.h"
 #include <algorithm>
@@ -25,14 +24,24 @@ public:
 
 protected:
   void generate_page_file(
-      const string& output, string title, vector<string> paragraphs) {
+      const string& output, const string& title,
+      const vector<string>& paragraphs) {
     ofstream html(output);
-    HMTLPLUS::header(html, std::move(title), stylesheets);
-    HMTLPLUS::page_body(html, std::move(paragraphs));
+    HMTLPLUS::header(html, title, stylesheets);
+    HMTLPLUS::page_body(html, paragraphs);
   }
 
-protected:
   const vector<string>& stylesheets;
+
+  static auto read_file(const string& file_name) -> string {
+    std::string file_str;
+    std::ifstream file_data(file_name);
+    std::stringstream str_stream;
+    str_stream << file_data.rdbuf();
+    file_str = str_stream.str();
+    file_data.close();
+    return file_str;
+  }
 };
 
 class TextHandler : public Handler {
@@ -43,14 +52,15 @@ public:
   virtual ~TextHandler() {}
 
   virtual void process(string input, string output, string name) {
-    string      title                    = fs::path(input).stem().string();
-    string      file_content             = file_sdds::read_file(input);
-    auto        two_newline_position     = file_content.find("\n\n\n");
+    string title                         = fs::path(input).stem().string();
+    string file_content                  = read_file(input);
+    auto two_newline_position            = file_content.find("\n\n\n");
     std::size_t last_blank_line_position = 0;
 
     // Remove the first line if it's a title, retrieve the title
     if (two_newline_position != string::npos) {
-      title                    = file_content.substr(0, two_newline_position);
+      title = file_content.substr(0, two_newline_position);
+
       last_blank_line_position = two_newline_position + 3;
     }
 
@@ -60,11 +70,11 @@ public:
   }
 
 protected:
-  virtual std::vector<string>
-  parse_paragraphs(const string& file_content, std::size_t start) {
+  virtual auto parse_paragraphs(const string& file_content, std::size_t start)
+      -> std::vector<string> {
     static const string separator = "\n\n";
     std::vector<string> paragraphs;
-    std::size_t         last_blank_line_position = start;
+    std::size_t last_blank_line_position = start;
 
     // Extract the data into paragraphs
     while (last_blank_line_position < file_content.size() &&
@@ -79,7 +89,6 @@ protected:
           next_blank_line_position - last_blank_line_position));
       last_blank_line_position = next_blank_line_position + separator.size();
     }
-
     paragraphs.push_back(file_content.substr(last_blank_line_position));
     return paragraphs;
   }
@@ -93,14 +102,14 @@ public:
   virtual ~MarkdownHandler() {}
 
   virtual void process(string input, string output, string name) {
-    string            title = fs::path(input).stem().string();
-    std::ifstream     file_data(input);
+    string title = fs::path(input).stem().string();
+    std::ifstream file_data(input);
     std::stringstream md_str;
     md_str << file_data.rdbuf();
     file_data.close();
 
     std::shared_ptr<maddy::Parser> parser = std::make_shared<maddy::Parser>();
-    std::string                    html_output = parser->Parse(md_str);
+    std::string html_output               = parser->Parse(md_str);
 
     ofstream html(fs::path(output) / name);
     HMTLPLUS::header(html, title, stylesheets);
