@@ -6,7 +6,7 @@
 namespace utils_sdds {
 
   void print_banner() {
-    std::system("clear");
+    std::cout << "\x1B[2J\x1B[H"; // clears console
     std::cout << termcolor::on_grey << termcolor::bold << termcolor::white
               << project_name << termcolor::reset << " v" << project_version
               << termcolor::dark << termcolor::reset << termcolor::bold

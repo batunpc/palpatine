@@ -81,8 +81,9 @@ protected:
            last_blank_line_position != string::npos) {
       std::size_t next_blank_line_position =
           file_content.find(separator, last_blank_line_position);
-      if (next_blank_line_position == string::npos)
+      if (next_blank_line_position == string::npos) {
         break;
+      }
 
       paragraphs.push_back(file_content.substr(
           last_blank_line_position,
