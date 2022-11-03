@@ -1,6 +1,3 @@
-#include "Palpatine.h"
-#include "Utils.h"
-#include "config.h"
 #include <algorithm>
 #include <argparse/argparse.hpp>
 #include <fstream>
@@ -8,9 +5,13 @@
 #include <map>
 #include <nlohmann/json.hpp>
 
+#include "Palpatine.h"
+#include "Utils.h"
+#include "config.h"
+
 auto setup_parser(const std::vector<std::string>& argv)
     -> argparse::ArgumentParser {
-  argparse::ArgumentParser program("palpatine", "0.5.7");
+  argparse::ArgumentParser program("palpatine", "0.5.9");
 
   program.add_argument("-o", "--output")
       .default_value(std::string("."))
@@ -50,7 +51,7 @@ int main(int argc, char const* argv[]) {
   }
   std::map<std::string, std::string> options;
 
-  options["output"]     = program.get("-o");
+  options["output"] = program.get("-o");
   options["stylesheet"] = program.get("-s");
 
   if (auto p_value = program.present("-c")) {
@@ -79,9 +80,8 @@ int main(int argc, char const* argv[]) {
     options["input"] = program.get("-i");
   }
 
-  Palpatine palpatine(
-      options["output"].c_str(), options["input"].c_str(),
-      options["stylesheet"].c_str());
+  Palpatine palpatine(options["output"].c_str(), options["input"].c_str(),
+                      options["stylesheet"].c_str());
   palpatine.generate();
 
   utils_sdds::print_location(options["output"]);

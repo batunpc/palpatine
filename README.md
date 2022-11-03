@@ -1,14 +1,15 @@
+<a name="readme-top"></a>
 
 <h1 align="center">
   <br>
-<img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="180">
+<img src="https://i.imgur.com/774fPlh.png" alt="Markdownify" width="200">
   <br>
   palpatine
 </h1>
 
 <h4 align="center">
 
-A minimal static site generator (SSG) built with C++> <br><br>
+A minimal static site generator (SSG) built with C++ <br><br>
   <a href="https://emperor-palpatine.netlify.app/">Demo</a> .
   <a href="https://dev.to/batunpc/palpatine-release10-350g">Blog</a>
 
@@ -16,57 +17,80 @@ A minimal static site generator (SSG) built with C++> <br><br>
 
 
 ## Overview 
-Palpatine is a minimal static site generator (SSG) built with C++. It is a command line tool that takes a directory of raw data (.txt files and markdown) and generates a static website. It is designed to be fast, simple and easy to use.
 
-### Requirements 
-#### macOS
-First install [Homebrew](https://brew.sh/) if you don't have it already. 
-If you don't have Xcode installed, you can at least run the `xcode-select --install` command to install the command line tools. This will ensure you have (clang++, gcc, git etc.) installed.\
-Test if you have the required tools with;
-- `clang++ --version` , if not install by running `brew install clang++`
-- `cmake --version` (tested with 3.15.4) - if not install with `brew install cmake`
-- `make --version` - if not install with `brew install make`
+Palpatine is a command line tool and a static site generator (SSG) that takes a directory of raw data (text and markdown) and generates a static website. It is designed to be fast, simple and easy to use. Find out how to install palpatine by reading [CONTRIBUTING.md]()
+
+### Built with
+
+![image](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white) 
+![image](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)
 
 
-
-### Usage
-Clone the repository and run either `./palpatine` or `make prepare` in the root directory of the project. 
-This automates the traditional [cmake build process](https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem) (i.e. `mkdir build && cd build && cmake .. && make`) and creates an executable file in the `build/app` directory. 
-
-
-```bash
- git clone https://github.com/batunpc/palpatine && cd palpatine
-
-make prepare 
-
-./palpatine -i <input> -c <config>  #  -i OR -c flags are mandatory
-```
-
-> **Note**: If you get permission denied error when running `./palpatine` you can run `chmod +x palpatine` to give the executable permission to run. See more about chmod [here](https://www.howtogeek.com/437958/how-to-use-the-chmod-command-on-linux/).
-
-
-### Flags
+### Available flags
 | Flag | Description                                                                                                                                                                               | Required / Optional                 |
 |------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
 | `-i` | Specify raw data directory or file e.g. use `data` directory in the codebase                                                                                                              | Required <br> <if -c not specified> |
 | `-c` | Specify config file e.g. use `config.json` in the codebase                                                                                                                                | Required<br> <if -i not specified>  |
 | `-o` | Specify particular directory that you want to generate static sites to.                                                                                                                   | Optional                            |
-| `-s` | If you please, you can add custom stylesheets by specifying the css files.<br> By default it uses [bahunya](https://hakanalpay.com/bahunya/). Make sure the URL tail has extension `.css` | Optional                            |
+| `-s` | Add custom stylesheets by specifying the css files.<br> By default it uses [bahunya](https://hakanalpay.com/bahunya/). | Optional                            |
 | `-h` | This will display all the available flags that palpatine handles                                                                                                                          | Optional                            |
 
 
-### Dependencies
-CMake is used to configure the following dependencies, and they will be installed in the `external` directory:
-- [p-ranav/argparse](https://github.com/p-ranav/argparse) - A single-file header-only C++11 library for parsing command line arguments.
-- [ikalnytskyi/termcolor](https://github.com/ikalnytskyi/termcolor) - A header-only C++ library for printing colored messages to a terminal.
-- [nlohmann/json](https://github.com/nlohmann/json) - JSON for Modern C++. Used to parse the config file and generate the static site.
+### Usage
 
-## Features
- 
-- [x]  Generate a static site from a directory of text/markdown files
-- [x]  Option to change the output directory
-- [x]  Option to specify a config file
-- [x]  Option to include a custom stylesheet link
-- [x]  Generate a list of all pages in a directory, with links to each page See [initial page](https://emperor-palpatine.netlify.app/)
-- [x]  Parse page title from the first line of the file if given
-- [x]  Full markdown support
+> **Note**: The example commands below are using the `sample data` directory in the codebase. You can use your own data directory or config file.
+
+
+#### Input
+
+The most basic usage of palpatine is to specify the input directory (i.e. the directory that contains the raw data)
+
+
+```bash
+./palpatine -i data
+```
+
+#### Input & Output 
+
+By default this will generate a `dist directory` within the project. You can specify a different output directory by using the `-o` flag
+
+
+```bash
+./palpatine -i data -o ~/Desktop
+```
+
+The above command will generate a `dist` directory in your Desktop.
+
+#### Stylesheets 
+
+Add a custom stylesheet to present your static site in a preffered way
+(i.e. use [water.css](https://watercss.kognise.dev/)) Notice that the URL tail has extension `.css`
+
+```bash
+./palpatine -i data -s https://cdn.jsdelivr.net/npm/water.css@2/out/water.css
+```
+
+#### Config file
+
+You can use a config file in JSON instead of specifying the each flag manually from CLI. The config file should be in the following format:
+
+```json
+{
+  "input": "data",
+  "output": "~/Desktop",
+  "stylesheet": "https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
+}
+```
+
+Then you can use the config file by specifying the `-c` flag
+  
+  ```bash
+  ./palpatine -c config.json
+  ```
+
+
+### License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>

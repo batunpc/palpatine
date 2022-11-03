@@ -91,8 +91,9 @@
     "span": "cpp",
     "thread": "cpp",
     "unordered_set": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-  "liveServer.settings.port": 5501
+  "editor.formatOnSave": true,
+  "clang-format.executable": "/opt/homebrew/opt/llvm/bin/clang-format"
 }
