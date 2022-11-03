@@ -38,7 +38,8 @@ Palpatine is a command line tool and a static site generator (SSG) that takes a 
 
 ### Usage
 
-> **Note:** The example commands below are using the `sample data` directory in the codebase. You can use your own data directory or config file.
+> **Note**: The example commands below are using the `sample data` directory in the codebase. You can use your own data directory or config file.
+
 
 #### Input
 
