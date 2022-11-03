@@ -1,20 +1,22 @@
 #include "Palpatine.h"
-#include "FileHandler.h"
-#include "htmlplus.h"
+
 #include <algorithm>
 #include <filesystem>
 #include <iostream>
 #include <vector>
 
+#include "FileHandler.h"
+#include "htmlplus.h"
+
 namespace fs = std::filesystem;
 using std::vector, std::ifstream, std::ofstream;
 
 // Constructor
-Palpatine::Palpatine(
-    const char* output, const char* input, const char* stylesheet)
+Palpatine::Palpatine(const char* output, const char* input,
+                     const char* stylesheet)
     : m_input(input) {
   // paths to the input and output directories
-  this->m_output    = (fs::path(output) / "dist").string();
+  this->m_output = (fs::path(output) / "dist").string();
   this->stylesheets = std::vector{string("")};
   if (stylesheet != nullptr) {
     this->stylesheets.emplace_back(stylesheet);
@@ -27,8 +29,8 @@ Palpatine::Palpatine(
 
 void Palpatine::generate() { process_path(m_input, m_output, "index.html"); }
 
-void Palpatine::process_path(
-    const string& input, const string& output, const string& name) {
+void Palpatine::process_path(const string& input, const string& output,
+                             const string& name) {
   if (fs::is_directory(input)) {
     // Store directories and files in current folder
     std::vector<string> directories, files;
@@ -43,12 +45,11 @@ void Palpatine::process_path(
         process_path(input_path.string(), output_path.string(), "index.html");
 
         directories.push_back(input_path.filename().string());
-      } else if (
-          entry.is_regular_file() && (input_path.extension() == ".txt" ||
-                                      input_path.extension() == ".md")) {
+      } else if (entry.is_regular_file() && (input_path.extension() == ".txt" ||
+                                             input_path.extension() == ".md")) {
         // Create the page file
-        process_path(
-            input_path.string(), output, input_path.stem().string() + ".html");
+        process_path(input_path.string(), output,
+                     input_path.stem().string() + ".html");
 
         files.push_back(input_path.stem().string());
       }
@@ -56,12 +57,11 @@ void Palpatine::process_path(
       if (title == ".") {
         title = "Homepage";
       }
-      generate_index_file(
-          (fs::path(output) / name).string(), title, directories, files);
+      generate_index_file((fs::path(output) / name).string(), title,
+                          directories, files);
     }
-  } else if (
-      fs::path(input).extension() == ".txt" ||
-      fs::path(input).extension() == ".md") {
+  } else if (fs::path(input).extension() == ".txt" ||
+             fs::path(input).extension() == ".md") {
     Handler* handler = fs::path(input).extension() == ".txt"
                            ? new TextHandler(stylesheets)
                            : new MarkdownHandler(stylesheets);
@@ -73,9 +73,9 @@ void Palpatine::process_path(
   }
 }
 
-void Palpatine::generate_index_file(
-    const string& out, const string& title, const vector<string>& directories,
-    const vector<string>& files) {
+void Palpatine::generate_index_file(const string& out, const string& title,
+                                    const vector<string>& directories,
+                                    const vector<string>& files) {
   ofstream html(out);
   HMTLPLUS::header(html, title, this->stylesheets);
   HMTLPLUS::index_body(html, title, directories, files);

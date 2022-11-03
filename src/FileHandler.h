@@ -1,6 +1,4 @@
 #pragma once
-#include "htmlplus.h"
-#include "maddy/parser.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -10,11 +8,14 @@
 #include <utility>
 #include <vector>
 
+#include "htmlplus.h"
+#include "maddy/parser.h"
+
 namespace fs = std::filesystem;
 using std::vector, std::ifstream, std::ofstream;
 
 class Handler {
-public:
+ public:
   explicit Handler(const vector<string>& stylesheets)
       : stylesheets(stylesheets) {}
 
@@ -22,10 +23,9 @@ public:
 
   virtual ~Handler() = default;
 
-protected:
-  void generate_page_file(
-      const string& output, const string& title,
-      const vector<string>& paragraphs) {
+ protected:
+  void generate_page_file(const string& output, const string& title,
+                          const vector<string>& paragraphs) {
     ofstream html(output);
     HMTLPLUS::header(html, title, stylesheets);
     HMTLPLUS::page_body(html, paragraphs);
@@ -45,16 +45,16 @@ protected:
 };
 
 class TextHandler : public Handler {
-public:
+ public:
   explicit TextHandler(const vector<string>& stylesheets)
       : Handler(stylesheets) {}
 
   virtual ~TextHandler() {}
 
   virtual void process(string input, string output, string name) {
-    string title                         = fs::path(input).stem().string();
-    string file_content                  = read_file(input);
-    auto two_newline_position            = file_content.find("\n\n\n");
+    string title = fs::path(input).stem().string();
+    string file_content = read_file(input);
+    auto two_newline_position = file_content.find("\n\n\n");
     std::size_t last_blank_line_position = 0;
 
     // Remove the first line if it's a title, retrieve the title
@@ -69,7 +69,7 @@ public:
     generate_page_file((fs::path(output) / name).string(), title, paragraphs);
   }
 
-protected:
+ protected:
   virtual auto parse_paragraphs(const string& file_content, std::size_t start)
       -> std::vector<string> {
     static const string separator = "\n\n";
@@ -96,7 +96,7 @@ protected:
 };
 
 class MarkdownHandler : public TextHandler {
-public:
+ public:
   explicit MarkdownHandler(const vector<string>& stylesheets)
       : TextHandler(stylesheets) {}
 
@@ -110,7 +110,7 @@ public:
     file_data.close();
 
     std::shared_ptr<maddy::Parser> parser = std::make_shared<maddy::Parser>();
-    std::string html_output               = parser->Parse(md_str);
+    std::string html_output = parser->Parse(md_str);
 
     ofstream html(fs::path(output) / name);
     HMTLPLUS::header(html, title, stylesheets);
