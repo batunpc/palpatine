@@ -23,7 +23,6 @@ Tested on Ubuntu 20.04.5 LTS (Focal Fossa) with;
 - `make --version` - if not install with `sudo apt install make`
 
 
-
 ### Building
 
 Clone the repository and run either `./palpatine` or `make prepare` in the root directory of the project. 
