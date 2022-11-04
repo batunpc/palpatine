@@ -8,29 +8,15 @@
 #include "FileHandler.h"
 #include "htmlplus.h"
 
-Palpatine::Palpatine(const char* output, const char* input,
-                     const char* stylesheet)
-    : m_input(input) {
-  // paths to the input and output directories
-  this->m_output = (std::filesystem::path(output) / "dist").string();
-  this->stylesheets = std::vector{string("")};
-  if (stylesheet != nullptr) {
-    this->stylesheets.emplace_back(stylesheet);
-  }
-  // remove the output directory if it exists
-  std::filesystem::remove_all(this->m_output);
-  // create the output directory if it doesn't exist
-  std::filesystem::create_directory(this->m_output);
-}
-
 void Palpatine::generate() { process_path(m_input, m_output, "index.html"); }
 
-void Palpatine::process_path(const string& input, const string& output,
-                             const string& name) {
+void Palpatine::process_path(const std::string& input,
+                             const std::string& output,
+                             const std::string& name) {
   if (std::filesystem::is_directory(input)) {
     // Store directories and files in current folder
-    std::vector<string> directories;
-    std::vector<string> files;
+    std::vector<std::string> directories;
+    std::vector<std::string> files;
 
     for (const auto& entry : std::filesystem::directory_iterator(input)) {
       std::filesystem::path input_path = std::filesystem::path(entry);
@@ -51,12 +37,13 @@ void Palpatine::process_path(const string& input, const string& output,
 
         files.push_back(input_path.stem().string());
       }
-      string title = std::filesystem::relative(input, this->m_input).string();
+      std::string title =
+          std::filesystem::relative(input, this->m_input).string();
       if (title == ".") {
         title = "Homepage";
       }
       generate_index_file((std::filesystem::path(output) / name).string(),
-                          title, directories, files);
+                          directories, title, files);
     }
   } else if (std::filesystem::path(input).extension() == ".txt" ||
              std::filesystem::path(input).extension() == ".md") {
@@ -72,9 +59,10 @@ void Palpatine::process_path(const string& input, const string& output,
   }
 }
 
-void Palpatine::generate_index_file(const string& out, const string& title,
-                                    const vector<string>& directories,
-                                    const vector<string>& files) {
+void Palpatine::generate_index_file(const std::string& out,
+                                    const std::vector<std::string>& directories,
+                                    const std::string& title,
+                                    const std::vector<std::string>& files) {
   std::ofstream html(out);
   HMTLPLUS::header(html, title, this->stylesheets);
   HMTLPLUS::index_body(html, title, directories, files);
