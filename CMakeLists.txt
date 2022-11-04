@@ -7,24 +7,39 @@ project(palpatine
   LANGUAGES CXX
 )
 
+# Global CMake variables
+# ----------------------
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED     ON)
+set(CMAKE_CXX_EXTENSIONS            OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS   ON)
 
+# Options
+# -------
+option(ENABLE_CLANG_TIDY    "Enable to add clang tidy."             ON)
+
+
+# Naming conventions for targets lib and exe
+# ------------------------------------------
 set(PALPATINE_LIB "Libraries")
 set(PALPATINE_EXE "palpatine")
 set(CMAKE_BUILD_TYPE "Debug")
 
-# Call the addGitSubmodule function to add the library
-# set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+# CMakes modules 
+# --------------
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
 
 include(AddGitSubmodule)
+include(StaticAnalyzers) # clang-tidy
 
-# Dependencies
+# External libraries - dependencies of palpatine
+# ---------------------------------------------
 add_git_submodule("external/parser")
 add_git_submodule("external/termcolor")
 add_git_submodule("external/json")
 
+# Subdirectories
+# --------------
 add_subdirectory(config)
 add_subdirectory(src)
 add_subdirectory(app) # The executable lays here

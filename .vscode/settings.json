@@ -95,5 +95,13 @@
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "editor.formatOnSave": true,
-  "clang-format.executable": "/opt/homebrew/opt/llvm/bin/clang-format"
+  "clang-format.executable": "/opt/homebrew/opt/llvm/bin/clang-format",
+  /* SET clang-tidy so the warnings will show in vscode */
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  /* use the .clang-tidy file for clang tidy arguments */
+  "C_Cpp.codeAnalysis.clangTidy.config": "${workspaceFolder}/.clang-tidy",
+  /* use the .clang-format file for clang format arguments */
+  "C_Cpp.clang_format_style": "${workspaceFolder}/.clang-format",
+  /* use the .clang-format file for clang format arguments */
+  "C_Cpp.clang_format_fallbackStyle": "${workspaceFolder}/.clang-format",
 }
