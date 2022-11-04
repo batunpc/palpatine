@@ -19,16 +19,6 @@ void print_banner() {
   std::cout << termcolor::dark << project_description << termcolor::reset
             << std::endl;
   std::cout << std::endl;
-
-  // using https://patorjk.com/software/taag/
-  //  std::cout << termcolor << R"(
-  //        _____  _____  ____   _____  _____  ____  ___  _____  _____
-  //        /  _  \/  _  \/  _/  /  _  \/  _  \/    \/___\/  _  \/   __\
-    //       |   __/|  _  ||  |---|   __/|  _  |\-  -/|   ||  |  ||   __|
-  //        \__/   \__|__/\_____/\__/   \__|__/ |__| \___/\__|__/\_____/
-
-  //                                       )"
-  //           << std::endl;
 }
 
 void print_error(const std::string& err) {

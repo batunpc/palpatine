@@ -37,6 +37,8 @@ CMake is used to configure the following [dependencies as git submodules](https:
 - [ikalnytskyi/termcolor](https://github.com/ikalnytskyi/termcolor) - A header-only C++ library for printing colored messages to a terminal.
 - [nlohmann/json](https://github.com/nlohmann/json) - JSON for Modern C++. Used to parse the config file and generate the static site.
 
+You can visualize these dependencies by running `make prepare` in your terminal and view the image file from `build/dependency.png`. This command will require `graphviz` and `dot` to be installed in your system. You can install this with `brew install graphviz && brew install dot`
+> This step is completely optional and only useful to visualize what dependencies are required. Currently, it looks like this -
 
 ## Raise PR
 
