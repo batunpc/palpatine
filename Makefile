@@ -11,5 +11,3 @@ prepare:
 	
 	@echo ">>> Done";
 	@echo ">>> Run ./palpatine [options] to start the application";
-
-

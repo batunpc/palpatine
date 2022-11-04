@@ -93,24 +93,4 @@
     "unordered_set": "cpp",
     "valarray": "cpp",
   },
-  /*   */
-  // "clang-tidy.executable": "/opt/homebrew/opt/llvm/bin/clang-tidy",
-  // "clang-tidy.checks": [
-  //   "clang-analyzer-*",
-  //   "clang-diagnostic-*",
-  //   "clang-analyzer-*",
-  //   "cppcoreguidelines-*",
-  //   "google-*",
-  //   "misc-*",
-  //   "modernize-*",
-  //   "performance-*",
-  //   "portability-*",
-  //   "readability-*",
-  //   "zircon-*"
-  // ],
-  // "clang-tidy.compilerArgsBefore": [
-  //   "-stdlib=libc++",
-  //   "-isystem",
-  //   "/opt/homebrew/opt/llvm/include/c++/v1",
-  // ],
 }

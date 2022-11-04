@@ -40,13 +40,13 @@ CMake is used to configure the following [dependencies as git submodules](https:
 You can visualize these dependencies by running `make prepare` in your terminal and view the image file from `build/dependency.png`. This command will require `graphviz` and `dot` to be installed in your system.\
 You can install this with `brew install graphviz && brew install dot`
 > This step is completely optional and only useful to visualize what dependencies are required. Currently, it looks like this -
-> 
 <img width="1636" alt="CleanShot 2022-11-03 at 23 37 13@2x" src="https://user-images.githubusercontent.com/71259399/199881523-330b4a46-768a-497a-9687-9e1b16fdecc0.png">
-
 
 
 ## Raise PR
 
-1. Update the README.md depending on the changes you made.
-2. Increase the version numbers `MAJOR.MINOR.PATCH` that this change will be released as. 
+1. Run `clang-format -i src/*` and `clang-tidy ./src/*.h ./src/*.cpp ./app/main.cpp -p build` to format and lint your changes. 
+> **Note**: If you get `clang-tidy: command not found` error, you can install it with `brew install clang-tidy` on macOS or `sudo apt install clang-tidy` on Linux. The `-p build` flag is used to specify the build directory for the compilation database. See more about clang-tidy [here](https://clang.llvm.org/extra/clang-tidy/).
+2. Update the README.md depending on the changes you made.
+3. Increase the version numbers `MAJOR.MINOR.PATCH` that this change will be released as. 
 
