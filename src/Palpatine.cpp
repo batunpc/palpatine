@@ -52,7 +52,6 @@ void Palpatine::process_path(const std::string& input,
                            : new MarkdownHandler(stylesheets);
     handler->process(input, output, name);
     delete handler;
-
   } else {
     std::cout << "Error: " << input << " is not a valid file type" << std::endl;
     std::terminate();

@@ -11,7 +11,7 @@
 
 auto setup_parser(const std::vector<std::string>& argv)
     -> argparse::ArgumentParser {
-  argparse::ArgumentParser program("palpatine", "0.5.7");
+  argparse::ArgumentParser program("palpatine", "0.5.9");
 
   program.add_argument("-o", "--output")
       .default_value(std::string("."))

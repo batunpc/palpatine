@@ -94,21 +94,6 @@
     "valarray": "cpp",
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-  /* clang format  */
-  /* "editor.formatOnSave": true, */
-  /* clang tidy */
-  "clang-tidy.executable": "/opt/homebrew/opt/llvm/bin/clang-tidy",
-  "clang-tidy.checks": [
-    "clang-analyzer-*",
-    "clang-diagnostic-*",
-    "clang-analyzer-*",
-    "cppcoreguidelines-*",
-    "google-*",
-    "misc-*",
-    "modernize-*",
-    "performance-*",
-    "readability-*",
-    "zircon-*"
-  ],
-  "liveServer.settings.port": 5501
+  "editor.formatOnSave": true,
+  "clang-format.executable": "/opt/homebrew/opt/llvm/bin/clang-format"
 }
