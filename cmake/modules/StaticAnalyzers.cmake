@@ -8,9 +8,7 @@ if(ENABLE_CLANG_TIDY)
         set(CLANGTIDY_EXTRA_ARGS
             "-extra-arg=-Wno-unknown-warning-option"
         )
-        
         set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND};-p=${CMAKE_BINARY_DIR};${CLANGTIDY_EXTRA_ARGS}" CACHE STRING "" FORCE)
-        set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
         add_custom_target(clang-tidy
             COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target ${CMAKE_PROJECT_NAME}
@@ -19,6 +17,5 @@ if(ENABLE_CLANG_TIDY)
         )
 
         set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-        
     endif()
 endif()
