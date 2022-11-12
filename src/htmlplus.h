@@ -70,7 +70,7 @@ void footer(std::ostream& html_file) {
 void index_body(std::ostream& html_file, const std::string& title,
                 const std::vector<std::string>& directories,
                 const std::vector<std::string>& files) {
-  if (title == "Homepage") {
+  if (!directories.empty()) {
     html_file << R"(
         <h2>Directories</h2>
         <ul>)";
@@ -79,7 +79,8 @@ void index_body(std::ostream& html_file, const std::string& title,
                 << R"("/><i class="fas fa-folder"></i> )" << dir
                 << R"(</a></li>)";
     }
-  } else {
+  }
+  if (!files.empty()) {
     html_file << R"(
         <h2>Files</h2>
         <ul>)";
