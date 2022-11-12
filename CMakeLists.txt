@@ -10,14 +10,15 @@ project(palpatine
 # Global CMake variables
 # ----------------------
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD_REQUIRED            ON)
+set(CMAKE_CXX_EXTENSIONS                  OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS          ON)
 
 # Options
 # -------
-option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
-option(ENABLE_TESTING "Unit testing build" ON)
+option(ENABLE_CLANG_TIDY "Enable to add clang tidy."              OFF)
+option(ENABLE_TESTING "Unit testing build"                        ON)
+option(CODE_COVERAGE "Collect coverage from test library"         OFF)
 
 # Naming conventions for targets lib and exe
 # ------------------------------------------
