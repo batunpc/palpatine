@@ -11,3 +11,11 @@ prepare:
 	
 	@echo ">>> Done";
 	@echo ">>> Run ./palpatine [options] to start the application";
+
+
+test:
+	@echo ">>> Running tests ...";
+	@cd build; \
+	cmake --build . --target unit_tests ;
+	@cd build/tests; \
+	./unit_tests;

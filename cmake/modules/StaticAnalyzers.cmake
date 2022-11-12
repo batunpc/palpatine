@@ -1,5 +1,6 @@
 if(ENABLE_CLANG_TIDY)
     find_program(CLANG_TIDY_COMMAND NAMES clang-tidy)
+
     if(NOT CLANG_TIDY_COMMAND)
         message(WARNING "🔴 CMake_RUN_CLANG_TIDY is ON but clang-tidy is not found!")
         set(CMAKE_CXX_CLANG_TIDY "" CACHE STRING "" FORCE)
@@ -18,4 +19,4 @@ if(ENABLE_CLANG_TIDY)
 
         set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     endif()
-endif()
+endif(ENABLE_CLANG_TIDY)

@@ -9,4 +9,6 @@ target_include_directories(${PALPATINE_LIB} PUBLIC
 )
 target_link_libraries(${PALPATINE_LIB} PUBLIC
   termcolor
+  argparse
+  nlohmann_json
 )
