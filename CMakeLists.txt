@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.14)
 
 project(palpatine
   VERSION 0.5.9
@@ -16,7 +16,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS   ON)
 
 # Options
 # -------
-option(ENABLE_CLANG_TIDY    "Enable to add clang tidy."             ON)
+option(ENABLE_CLANG_TIDY    "Enable to add clang tidy." OFF)
+option(ENABLE_TESTING       "Unit testing build"        ON)
 
 
 # Naming conventions for targets lib and exe
@@ -34,12 +35,29 @@ include(StaticAnalyzers) # clang-tidy
 
 # External libraries - dependencies of palpatine
 # ---------------------------------------------
+# include(FetchContent)
 add_git_submodule("external/parser")
 add_git_submodule("external/termcolor")
 add_git_submodule("external/json")
+
+# Testing
+# -------
+Include(FetchContent)
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.1.1 # or a later release
+)
+
+FetchContent_MakeAvailable(Catch2)
+
 
 # Subdirectories
 # --------------
 add_subdirectory(config)
 add_subdirectory(src)
 add_subdirectory(app) # The executable lays here
+
+# Testing
+# -------
+add_subdirectory(tests)
