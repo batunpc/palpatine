@@ -19,3 +19,9 @@ test:
 	cmake --build . --target unit_tests ;
 	@cd build/tests; \
 	./unit_tests;
+
+codecov:
+	@echo ">>> Running tests ...";
+	@cd build; \
+	cmake --build . --target unit_tests ;
+	gcovr --html -o build/index.html ;
