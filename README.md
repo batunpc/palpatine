@@ -18,7 +18,7 @@ A minimal static site generator (SSG) built with C++ <br><br>
 
 ## Overview 
 
-Palpatine is a command line tool and a static site generator (SSG) that takes a directory of raw data (text and markdown) and generates a static website. It is designed to be fast, simple and easy to use. Find out how to install palpatine by reading [CONTRIBUTING.md]()
+Palpatine is a command line tool and a static site generator (SSG) that takes a directory of raw data (text and markdown) and generates a static website. It is designed to be fast, simple and easy to use. Find out how to install palpatine by reading [CONTRIBUTING.md](https://github.com/batunpc/palpatine/blob/main/CONTRIBUTING.md)
 
 ### Built with
 
