@@ -18,9 +18,6 @@ jobs:
     - name: setup
       run: |
         make setup
-    - name: prepare
-      run: |
-        make prepare
     - name: configure
       run: |
         cmake -H. -Bbuild -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
@@ -29,6 +26,4 @@ jobs:
         cmake --build build --config Debug --target unit_tests -j4
     - name: testing
       run: |
-        cd build
-        cd tests
-        ./unit_tests
+        cd build/tests && ./unit_tests
