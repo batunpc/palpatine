@@ -1,3 +1,12 @@
+setup: 
+	@if [ "$(shell uname)" = "Darwin" ]; then \
+		brew install gcovr; \
+		brew install lcov; \
+	fi
+	@if [ "$(shell uname)" = "Linux" ]; then \
+		pip install gcovr; \
+	fi
+
 dependency:
 	cd build && cmake .. --graphviz=dependency.dot && dot -Tpng dependency.dot -o dependency.png
 
