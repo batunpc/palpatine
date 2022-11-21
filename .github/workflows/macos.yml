@@ -25,4 +25,4 @@ jobs:
         cd build/tests && ./unit_tests
         curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
-        ./codecov -t ${CODECOV_TOKEN}
+        ./codecov -t 4c201dc5-77a7-48fd-a70c-60889ad56714
