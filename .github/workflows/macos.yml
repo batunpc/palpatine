@@ -11,10 +11,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
     - name: setup
       run: |
         make setup
@@ -27,3 +23,5 @@ jobs:
     - name: testing
       run: |
         cd build/tests && ./unit_tests
+        bash <(curl -s https://codecov.io/bash)
+        
