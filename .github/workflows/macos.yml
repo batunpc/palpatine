@@ -23,7 +23,6 @@ jobs:
     - name: testing
       run: |
         cd build/tests && ./unit_tests
-        bash <(curl -Os https://uploader.codecov.io/latest/linux/codecov)
+        curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
-        ./codecov
-        
+        ./codecov -t ${CODECOV_TOKEN}
