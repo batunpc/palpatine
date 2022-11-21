@@ -10,6 +10,7 @@
 #include "FileHandler.h"
 #include "Palpatine.cpp"
 #include "Palpatine.h"
+#include "htmlplus.h"
 #include "parser.h"
 
 namespace fs = std::filesystem;
@@ -442,7 +443,8 @@ The paragraph is contionued. It is going on until two new-line.</p>)") !=
       std::ofstream mdfile(md_path);
 
       mdfile << "# This is heading 1\nThis is a paragraph with __bold__ and "
-                "_italic_ text with [link](https://www.google.com) and image ";
+                "_italic_ text with [link](https://www.google.com) and image "
+                "![](https://www.google.com)\n\n";
       mdfile << "## This is heading 2\n";
       mdfile << "### This is heading 3\n";
       mdfile << "---\n";  // hr
@@ -569,7 +571,7 @@ The paragraph is contionued. It is going on until two new-line.</p>)") !=
               std::string::npos);
     }
 
-    fs::remove(fs::temp_directory_path() / "input");
-    fs::remove(fs::temp_directory_path() / "out");
+    fs::remove_all(fs::temp_directory_path() / "input");
+    fs::remove_all(fs::temp_directory_path() / "out");
   }
 }
