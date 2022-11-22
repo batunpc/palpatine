@@ -10,8 +10,8 @@
 #include "FileHandler.h"
 #include "Palpatine.cpp"
 #include "Palpatine.h"
-#include "htmlplus.h"
 #include "parser.h"
+#include "htmlplus.h"
 
 namespace fs = std::filesystem;
 
@@ -443,8 +443,7 @@ The paragraph is contionued. It is going on until two new-line.</p>)") !=
       std::ofstream mdfile(md_path);
 
       mdfile << "# This is heading 1\nThis is a paragraph with __bold__ and "
-                "_italic_ text with [link](https://www.google.com) and image "
-                "![](https://www.google.com)\n\n";
+                "_italic_ text with [link](https://www.google.com) and image ![](https://www.google.com)\n\n";
       mdfile << "## This is heading 2\n";
       mdfile << "### This is heading 3\n";
       mdfile << "---\n";  // hr
@@ -573,5 +572,42 @@ The paragraph is contionued. It is going on until two new-line.</p>)") !=
 
     fs::remove_all(fs::temp_directory_path() / "input");
     fs::remove_all(fs::temp_directory_path() / "out");
+  }
+}
+
+TEST_CASE("HTMLPlus Tests", "[html_plus]") {
+  SECTION("Header") {
+    std::stringstream html;
+    HMTLPLUS::header(html, "Title of File", std::vector<std::string>{"test-css"});
+    std::string content = html.str();
+    std::string expected = R"(
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title of File</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://kit.fontawesome.com/7c3efb728f.js" crossorigin="anonymous"></script>
+    <style> ul { list-style-type: none; margin: 0; padding: 0; overflow: hidden;} </style>
+    
+    <link rel="stylesheet" href="test-css">
+</head>
+<body>
+    <div>
+        <h1 class="animate__animated animate__fadeInLeft">Title of File</h1>
+    </div>)";
+    REQUIRE(content.size() == expected.size());
+  }
+
+  SECTION("Footer") {
+    std::stringstream html;
+    HMTLPLUS::footer(html);
+    std::string content = html.str();
+    std::string expected = R"(
+  </body>
+</html>)";
+    REQUIRE(content.size() == expected.size());
   }
 }
