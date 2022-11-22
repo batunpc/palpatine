@@ -23,4 +23,4 @@ jobs:
     - name: testing
       run: |
         cd build/tests && ./unit_tests
-        curl -Os https://uploader.codecov.io/latest/macos/codecov chmod +x codecov ./codecov
+        bash <(curl -s https://codecov.io/bash)
