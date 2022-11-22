@@ -47,7 +47,7 @@ add_git_submodule("external/catch2")
 # --------------
 add_subdirectory(config)
 add_subdirectory(src)
-add_subdirectory(app) # The executable lays here
+add_subdirectory(app) # exe
 
 # Testing
 # -------

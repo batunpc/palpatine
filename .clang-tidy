@@ -13,4 +13,5 @@ HeaderFilterRegex: 'src/*,app/*'
 AnalyzeTemporaryDtors: false
 WarningsAsErrors: ''
 FormatStyle: file
+FormatStyleOptions: ''
 ...

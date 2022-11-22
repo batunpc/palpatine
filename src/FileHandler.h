@@ -47,7 +47,7 @@ class TextHandler : public Handler {
   explicit TextHandler(const std::vector<std::string>& stylesheets)
       : Handler(stylesheets) {}
 
-  virtual ~TextHandler() {}
+  ~TextHandler() override = default;
 
   virtual void process(std::string input, std::string output,
                        std::string name) {
@@ -100,10 +100,10 @@ class MarkdownHandler : public TextHandler {
   explicit MarkdownHandler(const std::vector<std::string>& stylesheets)
       : TextHandler(stylesheets) {}
 
-  virtual ~MarkdownHandler() {}
+  ~MarkdownHandler() override = default;
 
-  virtual void process(std::string input, std::string output,
-                       std::string name) {
+  void process(std::string input, std::string output,
+                       std::string name) override {
     std::string title = std::filesystem::path(input).stem().string();
     std::ifstream file_data(input);
     std::stringstream md_str;

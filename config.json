@@ -1,4 +1,5 @@
 {
-  "input": "./data",
-  "output": "."
+  "input": "data",
+  "output": "~/Desktop",
+  "stylesheet": "https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
 }

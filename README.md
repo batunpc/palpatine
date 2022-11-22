@@ -10,20 +10,16 @@
 <h4 align="center">
 
 A minimal static site generator (SSG) built with C++ <br><br>
-  <a href="https://emperor-palpatine.netlify.app/">Demo</a> .
-  <a href="https://dev.to/batunpc/palpatine-release10-350g">Blog</a>
+  <a href="https://emperor-palpatine.netlify.app/">See demo</a> .
+  <a href="https://dev.to/batunpc/palpatine-release10-350g">Read blog</a>
 </h4>
 
-
-
+![License](https://camo.githubusercontent.com/890acbdcb87868b382af9a4b1fac507b9659d9bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e737667)
+![workflow badge](https://github.com/batunpc/palpatine/actions/workflows/macos.yml/badge.svg)
+[![codecov](https://codecov.io/gh/batunpc/palpatine/branch/main/graph/badge.svg?token=CFFU1I0KHU)](https://codecov.io/gh/batunpc/palpatine)
 ## Overview 
 
 Palpatine is a command line tool and a static site generator (SSG) that takes a directory of raw data (text and markdown) and generates a static website. It is designed to be fast, simple and easy to use. Find out how to install palpatine by reading [CONTRIBUTING.md](https://github.com/batunpc/palpatine/blob/main/CONTRIBUTING.md)
-
-### Built with
-
-![image](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white) 
-![image](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)
 
 
 ### Available flags
