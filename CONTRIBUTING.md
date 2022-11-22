@@ -30,6 +30,15 @@ Clone the repository and run either `./palpatine` or `make prepare` in the root 
 
 This automates the traditional [cmake build process](https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem) (i.e. `mkdir build && cd build && cmake .. && make`) and creates an executable file in the `build/app` directory. Preview the `prepare command` in [Makefile](https://github.com/batunpc/palpatine/blob/90dcb1c5898e44229b10c86253b458894855f6de/Makefile#L4) and executable [palpatine script](https://github.com/batunpc/palpatine/blob/main/palpatine) to see what commands are being run for better understanding.
 
+### Unit testing
+
+```sh
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build . --config Debug --target unit_tests
+cd tests
+./unit_tests
+```
 
 ### Dependencies
 CMake is used to configure the following [dependencies as git submodules](https://github.com/batunpc/palpatine/blob/main/.gitmodules), and they will be installed in the `external` directory when the `Building` step is completed:
