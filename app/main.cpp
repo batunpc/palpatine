@@ -20,7 +20,6 @@ int main(int argc, char const* argv[]) {
     return 0;
   } catch (const std::runtime_error& err) {
     utils_sdds::print_error(err.what());
-    // std::cerr << program;
     return 1;
   }
 }
